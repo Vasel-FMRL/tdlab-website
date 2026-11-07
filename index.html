@@ -66,7 +66,7 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 }
 
 .brand .logo-dot{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none;overflow:hidden}
-.brand .logo-dot img{width:32px;height:32px;object-fit:contain;display:block;transform:translateX(.36px)}
+.brand .logo-dot img{width:32px;height:32px;object-fit:contain;display:block;transform:translateX(.18px)}
 /* ---------- hero ---------- */
 .hero{position:relative;background:var(--tunnel);color:var(--tunnel-ink);overflow:hidden;isolation:isolate}
 #flow{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
@@ -693,7 +693,7 @@ let logoMode=false;const logoImg=new Image();logoImg.src='assets/logo.webp';
 function drawBody(){
   ctx.beginPath();ctx.arc(cx,cy,R,0,7);
   if(logoMode){ctx.fillStyle='#ffffff';ctx.fill();
-    if(logoImg.complete&&logoImg.naturalWidth){const d=R*2*.86;ctx.drawImage(logoImg,cx-d/2+R*2*.01,cy-d/2,d,d)}
+    if(logoImg.complete&&logoImg.naturalWidth){const d=R*2*.86;ctx.drawImage(logoImg,cx-d/2+R*2*.005,cy-d/2,d,d)}
     ctx.strokeStyle=colA;ctx.lineWidth=3;ctx.globalAlpha=.35;ctx.stroke();ctx.lineWidth=1;ctx.globalAlpha=1}
   else{ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle=colA;ctx.globalAlpha=.6;ctx.stroke();ctx.globalAlpha=1}
 }
