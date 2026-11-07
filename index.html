@@ -244,8 +244,11 @@ section.block{padding-block:clamp(64px,9vw,112px)}
 .panel a.btn{align-self:flex-start;margin-top:8px;background:var(--accent);color:var(--paper)}
 .warn{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
 .warn svg{flex:none}
-.news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:20px}
-@media (max-width:760px){.news{grid-template-columns:1fr}}
+.news-band{background:color-mix(in srgb,var(--accent) 4%,var(--bg));border-top:1px solid var(--line)}
+.news{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:900px){.news{grid-template-columns:1fr}}
+.news a{display:flex!important;flex-direction:column}
+.news .more{margin-top:auto}
 .news a{text-decoration:none;display:block;padding:24px;border-radius:var(--radius);background:var(--tunnel);color:var(--tunnel-ink);transition:transform .25s}
 .news a:hover{transform:translateY(-3px)}
 .news h3{font-size:1.3rem;margin:8px 0 12px}
@@ -291,6 +294,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       <li><a href="#team">Team</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#safety">Lab Safety</a></li>
+      <li><a href="#news">News</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -558,9 +562,21 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
         <a class="btn" href="https://www.tdlab.info/_files/ugd/4fed22_a8a58b36810047fa96092c6772f2c7b0.pdf" target="_blank" rel="noopener">Housekeeping Guide ↗</a>
       </div>
     </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="block news-band" id="news">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">News &amp; Highlights</div><h2>In the news</h2></div>
+      <p>Coverage of our work, events we host, and stories about aerospace engineering at USF.</p>
+    </div>
     <div class="news">
+      <a class="reveal" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener"><div class="eyebrow">Feature · American Nuclear Society</div><h3>USF engineers develop technology to help nuclear power plants improve maintenance of a critical safety system</h3><span class="more">Read the article ↗</span></a>
       <a class="reveal" href="https://www.caeconference.ca/" target="_blank" rel="noopener"><div class="eyebrow">Conference</div><h3>Join us at the 10th Cleaner Earth and Atmosphere Conference</h3><span class="more">caeconference.ca ↗</span></a>
-      <a class="reveal" href="https://www.sarasotamanatee.usf.edu/magazine/2024/now-arriving.aspx" target="_blank" rel="noopener"><div class="eyebrow">Feature</div><h3>Reach New Heights. Aerospace Engineering at USF</h3><span class="more">Learn more ↗</span></a>
+      <a class="reveal" href="https://www.sarasotamanatee.usf.edu/magazine/2024/now-arriving.aspx" target="_blank" rel="noopener"><div class="eyebrow">Feature · USF</div><h3>Reach New Heights. Aerospace Engineering at USF</h3><span class="more">Learn more ↗</span></a>
     </div>
   </div>
 </section>
@@ -600,7 +616,7 @@ btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setA
 list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{list.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
 const links=[...list.querySelectorAll('a')];
 const secObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
-['research','publications','books','team','about','safety','contact'].forEach(id=>{const s=document.getElementById(id);if(s)secObs.observe(s)});
+['research','publications','books','team','about','safety','news','contact'].forEach(id=>{const s=document.getElementById(id);if(s)secObs.observe(s)});
 
 /* ---------- reveal (content visible at rest; only below-fold items animate in) ---------- */
 if(!reduce && 'IntersectionObserver' in window){
@@ -624,9 +640,9 @@ const cv=document.getElementById('flow'),ctx=cv.getContext('2d');
 let W,H,R,cx,cy,parts=[],vort=[],mouse=null,shed=0,sign=1,dpr=Math.min(2,devicePixelRatio||1);
 function size(){const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
   R=Math.max(26,Math.min(H*.11,70));cx=W>760?W*.66:W*.5;cy=H*.5;
-  parts=[];const n=Math.round(Math.min(1400,W*H/700));for(let i=0;i<n;i++)parts.push(seed(true));
+  parts=[];const n=Math.round(Math.min(1400,W*H/700));for(let i=0;i<n;i++){const p=seed(false);p.age=Math.random()*p.life;parts.push(p)}
   ctx.fillStyle=css('--tunnel');ctx.fillRect(0,0,W,H)}
-function seed(any){return{x:any?Math.random()*W:-5,y:Math.random()*H,age:Math.random()*200}}
+function seed(edge){let x,y,n=0;do{x=edge?-5-Math.random()*20:Math.random()*W;y=Math.random()*H}while(!edge&&(x-cx)**2+(y-cy)**2<R*R*1.2&&++n<20);return{x,y,age:0,life:250+Math.random()*350}}
 const U=1.4;
 function vel(x,y){
   const dx=x-cx,dy=y-cy,r2=dx*dx+dy*dy,R2=R*R;
@@ -649,7 +665,7 @@ function step(){
     ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(nx,ny);ctx.stroke();
     p.x=nx;p.y=ny;p.age++;
     const ddx=p.x-cx,ddy=p.y-cy;
-    if(p.x>W+5||p.y<-5||p.y>H+5||ddx*ddx+ddy*ddy<R*R*.98||p.age>420)Object.assign(p,seed(false),{age:0});
+    if(!isFinite(p.x)||!isFinite(p.y)||p.x>W+5||p.y<-25||p.y>H+25||ddx*ddx+ddy*ddy<R*R*.98)Object.assign(p,seed(true));else if(p.age>p.life)Object.assign(p,seed(false));
   }
   ctx.globalAlpha=1;
   ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle=colA;ctx.globalAlpha=.6;ctx.stroke();ctx.globalAlpha=1;
