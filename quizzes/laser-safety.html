@@ -1,0 +1,183 @@
+<!doctype html><html><head><meta charset=utf8><meta name="author" content="Ahmad Vaselbehagh"><link rel="icon" type="image/png" href="../assets/favicon.png"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!-- Author: AV — TDLab CO2 laser safety quiz (Coherent Diamond C-40, 10.6 µm, 40 W, Class 4) -->
+<title>TDLab CO2 Laser Safety Quiz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow column, one question card at a time, progress rail on top, results at the end. */
+:root{
+  --bg:#f7f8f6; --fg:#1b2420; --muted:#5d6a63; --panel:#ffffff; --line:#d9ded9;
+  --accent:#0f6e56; --accent-fg:#ffffff; --ok:#1f7a4d; --ok-bg:#e3f3ea; --bad:#b4472f; --bad-bg:#fbe9e3; --warn:#8a6d00;
+  --display:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --fg:#e8ece9; --muted:#9aa89f; --panel:#1d2522; --line:#303935;
+  --accent:#4fc39b; --accent-fg:#0f1a15; --ok:#6bd39f; --ok-bg:#1c3328; --bad:#f08a6c; --bad-bg:#3b231b; --warn:#e2c15a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --fg:#e8ece9; --muted:#9aa89f; --panel:#1d2522; --line:#303935;
+  --accent:#4fc39b; --accent-fg:#0f1a15; --ok:#6bd39f; --ok-bg:#1c3328; --bad:#f08a6c; --bad-bg:#3b231b; --warn:#e2c15a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);line-height:1.5;
+  padding-block:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:680px;margin:0 auto;display:grid;gap:18px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:0;text-wrap:balance;font-weight:600}
+.lead{color:var(--muted);margin:0;max-width:60ch}
+.spec{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.spec b{color:var(--fg);font-weight:500}
+.rail{display:flex;gap:4px}
+.rail i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.rail i.done{background:var(--accent)} .rail i.wrong{background:var(--bad)} .rail i.cur{background:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.qnum{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+.q{font-size:18px;font-weight:500;margin:0 0 16px;text-wrap:balance}
+.opts{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:11px 13px;border:1px solid var(--line);border-radius:8px;
+  background:transparent;color:var(--fg);font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--accent)} .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--muted);min-width:1.4em;padding-top:2px}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)} .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;padding:12px 14px;border-radius:8px;border-left:3px solid var(--ok);background:var(--ok-bg);display:grid;gap:4px}
+.fb.bad{border-left-color:var(--bad);background:var(--bad-bg)}
+.fb b{font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:500;padding:10px 18px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.score{font-size:40px;font-weight:600;font-family:var(--mono);line-height:1}
+.pass{color:var(--ok)} .fail{color:var(--bad)}
+.review{display:grid;gap:10px;margin-top:16px}
+.review .item{padding:10px 12px;border-radius:8px;border:1px solid var(--line);font-size:14px}
+.review .item.miss{border-color:var(--bad)}
+.review .item .k{font-family:var(--mono);font-size:12px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);line-height:1.5}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}}
+</style>
+
+<div class="wrap" style="margin-bottom:6px"><a href="../#safety" style="font-family:var(--mono);font-size:12px;color:var(--accent);text-decoration:none">← Back to TD Lab safety</a></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">TDLab · Laser safety check</div>
+    <h1>CO<sub>2</sub> Laser Safety Quiz</h1>
+    <p class="lead">For everyone who works in or enters the laser area. Answer all questions; you need 80% to pass. Each answer comes with a short explanation, so read the ones you miss.</p>
+    <div class="spec"><span>Laser <b>Coherent Diamond C-40</b></span><span>λ <b>10.6 µm (10,600 nm)</b></span><span>Power <b>40 W CW</b></span><span>Class <b>4</b></span><span>Standard <b>ANSI Z136.1</b></span></div>
+  </header>
+
+  <div class="rail" id="rail" aria-hidden="true"></div>
+
+  <section class="card" id="card" aria-live="polite"></section>
+
+  <footer>Based on ANSI Z136.1 (Safe Use of Lasers) and the TDLab laser SOP. If anything here disagrees with the posted SOP or the LSO, the SOP and the LSO win. Questions about the laser go to Dr. Vaselbehagh (vaselbehagh@usf.edu).</footer>
+</div>
+
+<script>
+// Author: AV
+const Q = [
+ {q:"Where in the eye does a 10.6 µm CO2 beam deposit its energy?",
+  o:["On the retina, after being focused by the cornea and lens","In the cornea and the tear film at the front of the eye","In the lens, causing cataracts over years","It passes through the eye without being absorbed"],
+  a:1, e:"Water absorbs far-infrared strongly, so 10.6 µm is stopped in the first fraction of a millimetre of the cornea. The injury is a corneal burn, which is painful and can scar, not a retinal lesion. The retinal hazard region is 400–1400 nm, and the CO2 line is far outside it."},
+ {q:"Why is a CO2 beam more dangerous than its 40 W alone suggests?",
+  o:["It is invisible, so there is no blink or aversion response to warn you","It carries X-rays","Its photons are ionizing","It is always pulsed"],
+  a:0, e:"At 10.6 µm you cannot see the beam or its reflections. A visible laser triggers a blink within about 0.25 s; a CO2 beam gives no warning until tissue heats. That is why the beam path has to be enclosed or blocked, not just avoided by eye."},
+ {q:"The C-40 is a Class 4 laser. Which statement about Class 4 is correct?",
+  o:["Only the direct beam is hazardous; reflections are safe","Direct, specularly reflected and diffusely reflected beams can all injure the eye or skin, and the beam can ignite materials","It is eye-safe below 0.25 s exposure","It is safe if the beam is kept below bench height"],
+  a:1, e:"Class 4 is the highest class. Even light scattered off a matte surface can exceed the exposure limit near the target, and the beam is a fire hazard. Every Class 4 laser needs an LSO, a controlled area, a written SOP and trained users."},
+ {q:"The ANSI Z136.1 maximum permissible exposure for the cornea at 10.6 µm (10 s exposure) is 0.1 W/cm². The 40 W beam is about 5 mm in diameter. Roughly how far above the MPE is the raw beam?",
+  o:["About 2×","About 20×","About 200×","About 2,000×"],
+  a:3, e:"Beam area ≈ π(0.5 cm)²/4 ≈ 0.2 cm², so the irradiance is about 40 W / 0.2 cm² ≈ 200 W/cm², roughly 2,000 times the MPE of 0.1 W/cm². Even a 1% reflection off a surface is still above the limit."},
+ {q:"Which protective eyewear is right for this laser?",
+  o:["Any dark sunglasses","Eyewear marked for 1064 nm (Nd:YAG), OD 5+","Eyewear whose label states the optical density at 10,600 nm (10.6 µm), typically OD 4 or more, with side shields","Safety glasses are optional because the beam is enclosed most of the time"],
+  a:2, e:"Eyewear must be rated for the wavelength you use, and the rating is printed on the frame or lens. Using the ANSI method (limiting aperture 3.5 mm, MPE 0.1 W/cm²) the C-40 needs about OD 3.6, so OD 4+ at 10.6 µm is the lab standard. Glasses rated only for another wavelength may or may not block 10.6 µm, and you cannot tell by looking."},
+ {q:"You are aligning the C-40 with the enclosure open. Which practice is correct?",
+  o:["Run at full power so the burn marks are easy to see","Use the lowest power that works, keep the beam horizontal at bench height, and watch the beam by eye","Use the lowest power that works, keep the beam below eye level for a seated or standing person, use a visible alignment beam and a beam stop, wear your eyewear, and remove watches and rings","Wear eyewear only when the power is above 10 W"],
+  a:2, e:"Alignment is when most laser accidents happen. Minimum power, a fixed beam height away from eye level, a visible co-aligned pointer, a terminating beam stop and no jewellery are the standard Class 4 practices. Eyewear stays on whenever the beam can be exposed, whatever the power setting."},
+ {q:"Which material reflects a CO2 beam almost completely?",
+  o:["Black anodized aluminium","Polished copper or aluminium (about 98% at 10.6 µm)","Acrylic sheet","Wood"],
+  a:1, e:"At 10.6 µm bare metals are mirrors: aluminium and copper reflect about 98%, steel about 95%. A stray tool, a wrench or the bare edge of a fixture can redirect nearly the full 40 W. Keep metal out of the beam path, or use surfaces that are roughened or coated for the beam dump."},
+ {q:"Which of these is a safe beam stop or beam dump for a 40 W CO2 beam?",
+  o:["A sheet of black cardboard","A piece of matte black-painted plywood","A firebrick, graphite block or a purpose-built water- or air-cooled beam dump","A piece of acrylic (it absorbs 10.6 µm)"],
+  a:2, e:"Acrylic, cardboard and plywood all absorb 10.6 µm, which is exactly why they catch fire or melt. A beam stop has to absorb 40 W continuously without burning, so firebrick, graphite or a cooled metal dump are used. Anything flammable in or near the beam path is a fire hazard, not a safety device."},
+ {q:"Which of these items must never be cut or marked with the laser in the lab?",
+  o:["Cast acrylic","PVC or vinyl","Plain paper","Plywood"],
+  a:1, e:"PVC and vinyl release hydrogen chloride and chlorinated compounds when lasered. The fumes are toxic and corrode the optics and the machine. Check the material before cutting. If it is unknown, do not cut it. All cutting runs with the fume extraction on."},
+ {q:"The focusing lens in the beam path is zinc selenide (ZnSe). What is the main precaution?",
+  o:["None, it is ordinary glass","Do not touch it with bare hands, do not grind or sand it, and treat a cracked or burnt lens as hazardous waste, because ZnSe dust and fumes are toxic","Clean it with a dry paper towel","Store it in water"],
+  a:1, e:"ZnSe transmits 10.6 µm where glass does not. It is soft, hygroscopic and toxic when powdered or burnt. Handle it by the edges with gloves, clean only with approved solvent and lens tissue, and give damaged optics to the LSO for disposal."},
+ {q:"What is the nominal hazard zone (NHZ)?",
+  o:["The area inside the laser housing","The space where direct, reflected or scattered laser light exceeds the MPE during normal operation","A 1 m circle around the laser","The whole building"],
+  a:1, e:"Z136.1 defines the NHZ as the region where exposure can exceed the MPE. For an open Class 4 beam the NHZ can be the whole room, so the room itself is the controlled area. Eyewear is required inside the NHZ, which in TDLab means whenever the enclosure is open and the laser is enabled."},
+ {q:"Which control measures are required for a Class 4 laser area such as this one?",
+  o:["A laser warning sign at the entrance, an interlock or barrier at the door, an emission indicator, a beam stop, and access limited to trained users","A single warning sticker on the laser","Dim room lights so the beam shows up better","None, as long as the operator is careful"],
+  a:0, e:"These are the standard Class 4 engineering and administrative controls in Z136.1. The sign tells people what is behind the door (Danger, Class 4, invisible radiation, 10.6 µm, 40 W, eyewear required). The interlock or barrier keeps people out while the beam is on. The emission indicator warns you that the laser is armed even though you cannot see the beam."},
+ {q:"Besides the beam, which non-beam hazards come with this laser system?",
+  o:["Only electrical shock","Fire, laser-generated air contaminants (fumes from cutting), electrical hazards from the power supply and RF driver, and hot parts after operation","Ionizing radiation","Noise above 85 dB"],
+  a:1, e:"The beam is the obvious hazard, but fire and fumes cause more laser-lab incidents than eye injuries. Keep flammables out of the enclosure, run the extraction, never defeat an interlock, and do not open the laser head or power supply. Those are for Coherent or the LSO."},
+ {q:"Your colleague feels a sudden sting in the eye during alignment and the eye is watering. What do you do?",
+  o:["Rinse with water for a few minutes and go back to work","Shut off the laser, tell the LSO right away, and get the person to an eye doctor or the emergency room the same day, even if it seems minor","Wait a day to see if it improves","Put in eye drops and cover the eye"],
+  a:1, e:"A CO2 corneal burn feels like a grain of sand in the eye and needs a medical exam the same day. Every suspected exposure, with or without symptoms, is reported to the LSO and written up. The laser stays off until the cause is found."},
+ {q:"Who is allowed to operate the C-40 in TDLab?",
+  o:["Anyone in the lab","Any graduate student","Only people who have completed laser safety training, read the SOP, passed this quiz and been authorized by the LSO","Undergraduates with a buddy"],
+  a:2, e:"Class 4 operation requires documented training and authorization. If you are not on the authorized list, you may be in the room only with an authorized operator and only with eyewear on when the beam can be exposed."},
+ {q:"Why does a CO2 laser demand a visible co-aligned pointer or a thermal detector card during alignment?",
+  o:["Because 10.6 µm cannot be seen or photographed with ordinary cameras, so you need another way to find the beam","Because the pointer is more powerful","Because it is required by OSHA","It is optional; experienced users can feel the beam"],
+  a:0, e:"Standard IR viewer cards for near infrared do not respond to 10.6 µm. The co-aligned red pointer, thermal paper or a thermal detector card are the ways to locate the beam. Feeling the beam on your hand is a skin burn, not an alignment method."},
+];
+
+const PASS = 0.8;
+let i = 0, answers = [];
+const card = document.getElementById('card'), rail = document.getElementById('rail');
+
+function drawRail(){
+  rail.innerHTML = Q.map((_,k)=>{
+    const a = answers[k];
+    const cls = a===undefined ? (k===i?'cur':'') : (a===Q[k].a?'done':'wrong');
+    return `<i class="${cls}"></i>`;
+  }).join('');
+}
+
+function show(){
+  drawRail();
+  if (i >= Q.length) return results();
+  const q = Q[i], letters='ABCD';
+  card.innerHTML = `<div class="qnum">Question ${i+1} of ${Q.length}</div>
+    <p class="q">${q.q}</p>
+    <ul class="opts">${q.o.map((t,k)=>`<li><button class="opt" id="opt-${i}-${k}" data-k="${k}"><span class="k">${letters[k]}</span><span>${t}</span></button></li>`).join('')}</ul>
+    <div id="fb"></div><div class="row" id="row"></div>`;
+  card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.k)));
+}
+
+function answer(k){
+  const q = Q[i]; answers[i]=k;
+  card.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if (+b.dataset.k===q.a) b.classList.add('right');
+    else if (+b.dataset.k===k) b.classList.add('wrong');
+  });
+  const ok = k===q.a;
+  document.getElementById('fb').innerHTML = `<div class="fb ${ok?'':'bad'}"><b>${ok?'Correct':'Not quite'}</b><span>${q.e}</span></div>`;
+  document.getElementById('row').innerHTML = `<span></span><button class="btn" id="next">${i<Q.length-1?'Next question':'See my score'}</button>`;
+  document.getElementById('next').addEventListener('click',()=>{i++;show();});
+  document.getElementById('next').focus();
+  drawRail();
+}
+
+function results(){
+  const right = answers.filter((a,k)=>a===Q[k].a).length;
+  const pct = Math.round(100*right/Q.length), passed = right/Q.length >= PASS;
+  const missed = Q.map((q,k)=>({q,k})).filter(x=>answers[x.k]!==x.q.a);
+  card.innerHTML = `<div class="qnum">Result</div>
+    <div class="score ${passed?'pass':'fail'}">${pct}%</div>
+    <p style="margin:8px 0 0"><strong>${right} of ${Q.length} correct.</strong> ${passed
+      ? 'You passed. Take a screenshot of this page and send it to the LSO so you can be added to the authorized-user list.'
+      : 'Below the 80% pass mark. Go over the explanations below, reread the SOP, and take the quiz again.'}</p>
+    ${missed.length ? `<div class="review">${missed.map(x=>`<div class="item miss"><div class="k">Q${x.k+1} · missed</div>${x.q.q}<br><em>${x.q.o[x.q.a]}</em></div>`).join('')}</div>` : ''}
+    <div class="row"><span></span><button class="btn ghost" id="again">Retake the quiz</button></div>`;
+  document.getElementById('again').addEventListener('click',()=>{i=0;answers=[];show();});
+}
+
+show();
+</script>
+
+</body></html>

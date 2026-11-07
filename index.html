@@ -249,7 +249,9 @@ section.block{padding-block:clamp(64px,9vw,112px)}
 .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:26px;display:flex;flex-direction:column;gap:10px}
 .panel h3{font-size:1.35rem}
 .panel p{margin:0;color:var(--muted);font-size:.96rem}
-.panel a.btn{align-self:flex-start;margin-top:8px;background:var(--accent);color:var(--paper)}
+.panel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.panel a.btn{background:var(--accent);color:var(--paper)}
+.panel a.btn.quiz{background:transparent;color:var(--accent);border-color:var(--accent)}
 .warn{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
 .warn svg{flex:none}
 .news-band{background:color-mix(in srgb,var(--accent) 4%,var(--bg));border-top:1px solid var(--line)}
@@ -504,7 +506,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
         <details class="bio"><summary>Biography</summary>
           <p>I joined the University of South Florida's Department of Mechanical &amp; Aerospace Engineering in the Spring of 2024, where I also serve as the director of the Aerospace Engineering Program. Previously, I served as an Associate Professor (2024) and Assistant Professor (2017-2024) of Mechanical Engineering at Tennessee Tech University. Before joining Tennessee Tech, I was a postdoctoral researcher at the University of Delaware (2015-2017). I received my Ph.D. in Mechanical Engineering from the University of Windsor, Canada, in 2015. My research interests include thermal fluid sciences for energy and aerospace applications. I teach Turbulence, Propulsion, and Fluid Systems at USF. I taught Fluid Mechanics, Intermediate Fluid Mechanics, Atmospheric Fluid Mechanics, Thermodynamics, Conduction Heat Transfer, and Turbulence at Tennessee Tech.</p>
         </details>
-        <div class="links"><a href="https://www.tdlab.info/_files/ugd/4fed22_5943b9ce6c6e4d7eb63b77fad4dec3a6.pdf" target="_blank" rel="noopener">Download CV ↗</a><a href="https://www.usf.edu/engineering/me/index.aspx" target="_blank" rel="noopener">Department website ↗</a></div>
+        <div class="links"><a href="assets/docs/CV_Vaselbehagh.pdf" target="_blank" rel="noopener">Download CV ↗</a><a href="https://www.usf.edu/engineering/me/index.aspx" target="_blank" rel="noopener">Department website ↗</a></div>
       </article>
       <article class="person reveal">
         <div class="mark photo"><img src="assets/team/doranehgard.webp" alt="Mohammad Doranehgard" width="420" height="420"></div>
@@ -568,14 +570,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       <div class="panel reveal">
         <div class="warn"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1.5 17 16H1z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="11" r="1.8" fill="currentColor"/></svg>Laser area</div>
         <h3>Laser Safety</h3>
-        <p>Procedures, eyewear and controls for working with the lab’s lasers and optical systems.</p>
-        <a class="btn" href="assets/docs/TDLab_Laser_Safety_Guide.pdf" target="_blank" rel="noopener">Laser Safety Guide ↗</a>
+        <p>Procedures, eyewear and controls for working with the lab’s lasers and optical systems. Read the guide, then pass the quiz with 80% or more.</p>
+        <div class="panel-actions"><a class="btn" href="assets/docs/TDLab_Laser_Safety_Guide.pdf" target="_blank" rel="noopener">Laser Safety Guide ↗</a><a class="btn quiz" href="quizzes/laser-safety.html">Take the laser safety quiz →</a></div>
       </div>
       <div class="panel reveal">
         <div class="warn"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 9.5 8 12l5-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Every visit</div>
         <h3>Housekeeping</h3>
-        <p>How we keep the lab clean, organized and ready for the next experiment.</p>
-        <a class="btn" href="assets/docs/TDLab_Housekeeping_Guide.pdf" target="_blank" rel="noopener">Housekeeping Guide ↗</a>
+        <p>How we keep the lab clean, organized and ready for the next experiment. Read the guide, then pass the quiz with 80% or more.</p>
+        <div class="panel-actions"><a class="btn" href="assets/docs/TDLab_Housekeeping_Guide.pdf" target="_blank" rel="noopener">Housekeeping Guide ↗</a><a class="btn quiz" href="quizzes/housekeeping.html">Take the housekeeping quiz →</a></div>
       </div>
     </div>
     </div>

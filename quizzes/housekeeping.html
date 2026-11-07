@@ -1,0 +1,180 @@
+<!doctype html><html><head><meta charset=utf8><meta name="author" content="Ahmad Vaselbehagh"><link rel="icon" type="image/png" href="../assets/favicon.png"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!-- Author: AV — TDLab housekeeping quiz -->
+<title>TDLab Housekeeping Quiz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow column, one question card at a time, progress rail on top, results at the end. */
+:root{
+  --bg:#f7f8f6; --fg:#1b2420; --muted:#5d6a63; --panel:#ffffff; --line:#d9ded9;
+  --accent:#0f6e56; --accent-fg:#ffffff; --ok:#1f7a4d; --ok-bg:#e3f3ea; --bad:#b4472f; --bad-bg:#fbe9e3; --warn:#8a6d00;
+  --display:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a17; --fg:#e8ece9; --muted:#9aa89f; --panel:#1d2522; --line:#303935;
+  --accent:#4fc39b; --accent-fg:#0f1a15; --ok:#6bd39f; --ok-bg:#1c3328; --bad:#f08a6c; --bad-bg:#3b231b; --warn:#e2c15a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141a17; --fg:#e8ece9; --muted:#9aa89f; --panel:#1d2522; --line:#303935;
+  --accent:#4fc39b; --accent-fg:#0f1a15; --ok:#6bd39f; --ok-bg:#1c3328; --bad:#f08a6c; --bad-bg:#3b231b; --warn:#e2c15a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--display);line-height:1.5;
+  padding-block:28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:680px;margin:0 auto;display:grid;gap:18px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(22px,4vw,30px);line-height:1.15;margin:0;text-wrap:balance;font-weight:600}
+.lead{color:var(--muted);margin:0;max-width:60ch}
+.spec{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.spec b{color:var(--fg);font-weight:500}
+.rail{display:flex;gap:4px}
+.rail i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.rail i.done{background:var(--accent)} .rail i.wrong{background:var(--bad)} .rail i.cur{background:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px}
+.qnum{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:8px}
+.q{font-size:18px;font-weight:500;margin:0 0 16px;text-wrap:balance}
+.opts{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:11px 13px;border:1px solid var(--line);border-radius:8px;
+  background:transparent;color:var(--fg);font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--accent)} .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--muted);min-width:1.4em;padding-top:2px}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)} .opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;padding:12px 14px;border-radius:8px;border-left:3px solid var(--ok);background:var(--ok-bg);display:grid;gap:4px}
+.fb.bad{border-left-color:var(--bad);background:var(--bad-bg)}
+.fb b{font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:500;padding:10px 18px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.score{font-size:40px;font-weight:600;font-family:var(--mono);line-height:1}
+.pass{color:var(--ok)} .fail{color:var(--bad)}
+.review{display:grid;gap:10px;margin-top:16px}
+.review .item{padding:10px 12px;border-radius:8px;border:1px solid var(--line);font-size:14px}
+.review .item.miss{border-color:var(--bad)}
+.review .item .k{font-family:var(--mono);font-size:12px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);line-height:1.5}
+@media (prefers-reduced-motion:no-preference){.card{transition:opacity .2s}}
+</style>
+
+<div class="wrap" style="margin-bottom:6px"><a href="../#safety" style="font-family:var(--mono);font-size:12px;color:var(--accent);text-decoration:none">← Back to TD Lab safety</a></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">TDLab · Housekeeping check</div>
+    <h1>Lab Housekeeping Quiz</h1>
+    <p class="lead">For everyone with access to TDLab spaces. Answer all questions; you need 80% to pass. Each answer comes with a short explanation, so read the ones you miss.</p>
+    <div class="spec"><span>Based on <b>TDLab Housekeeping Guide</b></span><span>Applies to <b>all lab spaces</b></span><span>Pass mark <b>80%</b></span></div>
+  </header>
+
+  <div class="rail" id="rail" aria-hidden="true"></div>
+
+  <section class="card" id="card" aria-live="polite"></section>
+
+  <footer>Based on the TDLab Housekeeping Guide. Not sure where something goes or whether it is safe? Ask Dr. Vaselbehagh (vaselbehagh@usf.edu).</footer>
+</div>
+
+<script>
+// Author: AV
+const Q = [
+ {q:"You finish a measurement at 6 pm and plan to continue tomorrow morning. What do you do with the bench?",
+  o:["Leave everything as it is so you can pick up where you left off","Clear everything that is not the running experiment, put tools back, and label the setup with your name, what it is, the removal date and whether it is safe to touch","Cover it with a sheet","Move it all to the floor beside the bench"],
+  a:1, e:"A setup may stay overnight, but only the experiment itself, labelled so that anyone else in the room knows whose it is and whether they can touch it. Tools, parts, packaging and paper go back to their places every day."},
+ {q:"Which of these may be stored on the floor?",
+  o:["A box that arrived today and will be unpacked tomorrow","A gas cylinder on its cart","A coil of hose for the afternoon's test","None of them"],
+  a:3, e:"Nothing is stored on the floor, even briefly. Floors and walkways are escape routes, and anything on them is a trip hazard. Boxes are unpacked the day they arrive, hoses go on their hooks, and cylinders are chained upright in their place."},
+ {q:"You borrow the handheld anemometer for a field check. What is required?",
+  o:["Nothing, it is a shared instrument","Sign it out in the equipment log with your name, the date and where it is going; sign it back in, clean, with the cables coiled and any problem noted","Tell a labmate verbally","Leave a sticky note on the shelf"],
+  a:1, e:"Every instrument that leaves its shelf is signed out and signed in. The log is how the next user finds it and how damage and odd readings get reported instead of being discovered mid-experiment."},
+ {q:"A data logger comes back from the tower reading nonsense. What is the right action?",
+  o:["Put it back on the shelf; someone will figure it out","Tag it OUT OF SERVICE with the date and the fault, note it in the log and tell the PI","Open it up and try to fix it yourself","Throw it away"],
+  a:1, e:"Broken or suspect equipment is tagged, logged and reported the same day. A quietly returned faulty instrument costs someone else a week of bad data."},
+ {q:"Where does a bottle of acetone live when you are not actively pouring from it?",
+  o:["On the bench, cap off, so it is handy","In the flammables cabinet, closed and labelled","Under the sink","In the laser room"],
+  a:1, e:"Flammables go in the flammables cabinet, closed, labelled, with a safety data sheet on file. Open solvent on a bench is a fire and inhalation hazard, and it is one of the things that must never be near the laser."},
+ {q:"How is chemical waste handled?",
+  o:["Small amounts can go down the sink with plenty of water","It goes in the general trash if it is solid","It goes in the labelled container for that waste stream; ask before mixing anything into a container","Pour it into any waste bottle that has room"],
+  a:2, e:"Waste streams are kept separate because mixing them can react, and because disposal is by stream. Nothing goes down the sink or into the trash. Sharps go in the sharps box."},
+ {q:"Which statement about compressed gas cylinders is correct?",
+  o:["A cylinder can stand free while it is being used","Cylinders are chained or strapped upright at all times, capped when not connected, and moved only on a cylinder cart","Empty cylinders can be stored with full ones","A regulator can be left pressurized overnight"],
+  a:1, e:"An unrestrained cylinder that falls can shear its valve and become a projectile. Restrained, capped, moved on a cart, empties marked and separated, lines checked for leaks before use."},
+ {q:"You need to power three instruments and the bench has one outlet. What is acceptable?",
+  o:["Plug a power strip into another power strip","Use one power strip rated for the load, and no extension cord as permanent wiring","Run an extension cord from the next bench across the walkway","Use a multi-plug adapter in the wall outlet"],
+  a:1, e:"Daisy-chained strips and permanent extension cords overload circuits and are a leading cause of lab fires. One properly rated strip is fine; if the bench needs more outlets, ask for them to be installed."},
+ {q:"Which item does NOT belong on the laser bench or in the beam path?",
+  o:["The beam stop","A steel ruler","The barrier panels","The work piece being cut"],
+  a:1, e:"Bare metal reflects nearly all of a CO2 beam. Tools, rulers, jewellery and shiny objects stay off the laser bench. Paper, cardboard, solvents and cloth stay away because the beam ignites them."},
+ {q:"After a laser session, what has to happen before you leave ENG 019C?",
+  o:["Switch off the laser and go","Return the beam stop, panels and curtain to their marks, put eyewear back in its case, lock the laser and power supply in the cabinet, switch off the warning light, remove scraps and dust, and write the session in the log","Leave the laser on standby so it warms up faster tomorrow","Just lock the door"],
+  a:1, e:"The laser room has the longest end-of-session list in the lab because an open beam path, a loose reflective object or an unlocked laser is a hazard to whoever comes in next."},
+ {q:"Equipment comes back wet and muddy from a tower deployment. What is the rule?",
+  o:["Put it in the bin; it will dry on its own","Dry and clean it before storage, remove batteries from anything that will sit for more than a week, and check the inventory list before the bin goes on the shelf","Leave it in the truck until the next trip","Rinse it under the tap and store it"],
+  a:1, e:"Wet, muddy equipment corrodes in a closed bin, and a missing anchor or sensor is far easier to find on the day than at the next deployment. Deployment data is backed up to the lab drive before loggers are cleared."},
+ {q:"Where may you have a coffee?",
+  o:["At the bench, as long as it is away from the experiment","At your desk, in a closed container, but nowhere chemicals, lasers or experiments are in use","In the laser room, during warm-up","Anywhere, if it has a lid"],
+  a:1, e:"Food and open drink in a work area can pick up chemical contamination and spill into equipment. Closed water bottles at the desks only."},
+ {q:"You want to run the CO2 laser at 9 pm to catch up on samples. What applies?",
+  o:["Fine, as long as you lock the door","Hazardous work is not done alone or after hours without the PI's prior approval and a second person who knows you are there","Fine if you text a labmate afterwards","Fine for graduate students, not undergraduates"],
+  a:1, e:"Lasers, chemicals, pressurized systems, hot surfaces and heavy lifts need a second person who knows you are working, and the PI's approval for after-hours work. If something goes wrong alone at night, nobody is coming."},
+ {q:"You are the last person out. What does the daily checklist require?",
+  o:["Lights off and lock the door","Benches cleared, tools and instruments returned, chemicals away, heaters and power supplies off and unplugged, laser locked away, experiments labelled, floor clear, cylinders closed, water lines closed, lights off, door locked, and your initials on the sheet","Only the laser room needs checking","Take a photo and post it to the group chat"],
+  a:1, e:"The daily list takes five minutes and catches the things that start fires and floods overnight. The last person out initials the sheet so it is clear the check was done."},
+ {q:"An unlabelled setup has been sitting on a shared bench for three weeks and nobody claims it. What does the guide allow?",
+  o:["It stays until the owner turns up","It may be dismantled after a notice to the group","Anyone can take parts from it","It is moved to the floor"],
+  a:1, e:"Labelling is what protects your setup. Unlabelled setups older than two weeks may be dismantled after notice. Label everything that stays overnight with owner, contents and date."},
+];
+
+const PASS = 0.8;
+let i = 0, answers = [];
+const card = document.getElementById('card'), rail = document.getElementById('rail');
+
+function drawRail(){
+  rail.innerHTML = Q.map((_,k)=>{
+    const a = answers[k];
+    const cls = a===undefined ? (k===i?'cur':'') : (a===Q[k].a?'done':'wrong');
+    return `<i class="${cls}"></i>`;
+  }).join('');
+}
+
+function show(){
+  drawRail();
+  if (i >= Q.length) return results();
+  const q = Q[i], letters='ABCD';
+  card.innerHTML = `<div class="qnum">Question ${i+1} of ${Q.length}</div>
+    <p class="q">${q.q}</p>
+    <ul class="opts">${q.o.map((t,k)=>`<li><button class="opt" id="opt-${i}-${k}" data-k="${k}"><span class="k">${letters[k]}</span><span>${t}</span></button></li>`).join('')}</ul>
+    <div id="fb"></div><div class="row" id="row"></div>`;
+  card.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.k)));
+}
+
+function answer(k){
+  const q = Q[i]; answers[i]=k;
+  card.querySelectorAll('.opt').forEach(b=>{
+    b.disabled=true;
+    if (+b.dataset.k===q.a) b.classList.add('right');
+    else if (+b.dataset.k===k) b.classList.add('wrong');
+  });
+  const ok = k===q.a;
+  document.getElementById('fb').innerHTML = `<div class="fb ${ok?'':'bad'}"><b>${ok?'Correct':'Not quite'}</b><span>${q.e}</span></div>`;
+  document.getElementById('row').innerHTML = `<span></span><button class="btn" id="next">${i<Q.length-1?'Next question':'See my score'}</button>`;
+  document.getElementById('next').addEventListener('click',()=>{i++;show();});
+  document.getElementById('next').focus();
+  drawRail();
+}
+
+function results(){
+  const right = answers.filter((a,k)=>a===Q[k].a).length;
+  const pct = Math.round(100*right/Q.length), passed = right/Q.length >= PASS;
+  const missed = Q.map((q,k)=>({q,k})).filter(x=>answers[x.k]!==x.q.a);
+  card.innerHTML = `<div class="qnum">Result</div>
+    <div class="score ${passed?'pass':'fail'}">${pct}%</div>
+    <p style="margin:8px 0 0"><strong>${right} of ${Q.length} correct.</strong> ${passed
+      ? 'You passed. Take a screenshot of this page and send it to the LSO so you can be added to the authorized-user list.'
+      : 'Below the 80% pass mark. Go over the explanations below, reread the SOP, and take the quiz again.'}</p>
+    ${missed.length ? `<div class="review">${missed.map(x=>`<div class="item miss"><div class="k">Q${x.k+1} · missed</div>${x.q.q}<br><em>${x.q.o[x.q.a]}</em></div>`).join('')}</div>` : ''}
+    <div class="row"><span></span><button class="btn ghost" id="again">Retake the quiz</button></div>`;
+  document.getElementById('again').addEventListener('click',()=>{i=0;answers=[];show();});
+}
+
+show();
+</script>
+
+</body></html>
