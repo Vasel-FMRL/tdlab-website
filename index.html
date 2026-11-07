@@ -24,17 +24,19 @@
   --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body:"Source Serif 4", "Iowan Old Style", Georgia, serif;
   --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --radius:6px;
+  --radius:6px; --logo-chip:transparent; --logo-pad:0;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
   --accent:#4cc394; --gold:#e2bd5a;
   --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
+  --logo-chip:#ffffff; --logo-pad:5px 8px;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
   --accent:#4cc394; --gold:#e2bd5a;
   --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
+  --logo-chip:#ffffff; --logo-pad:5px 8px;
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -96,6 +98,14 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 .latest a.headline:hover{color:var(--flow-a)}
 .latest a.headline span{font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--tunnel-muted);margin-left:8px;white-space:nowrap}
 .latest a.more-news{flex:none;font-family:var(--mono);font-size:.74rem;color:var(--flow-a);text-decoration:none;border-bottom:1px solid currentColor}
+/* ---------- sponsor strip ---------- */
+.sponsor-strip{background:var(--paper);border-bottom:1px solid var(--line)}
+.sponsor-strip .wrap{display:flex;align-items:center;gap:14px 28px;padding-block:16px;flex-wrap:wrap}
+.sponsor-strip .label{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex:none}
+.sponsor-strip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 30px;flex:1;justify-content:space-between}
+.sponsor-strip li{background:var(--logo-chip);border-radius:4px;padding:var(--logo-pad);display:flex;align-items:center}
+.sponsor-strip img{height:38px;width:auto;max-width:120px;object-fit:contain;display:block}
+@media (max-width:640px){.sponsor-strip ul{justify-content:flex-start;gap:12px 22px}.sponsor-strip img{height:30px}}
 /* ---------- numbers ---------- */
 .numbers{border-bottom:1px solid var(--line);background:var(--paper)}
 .numbers .wrap{display:grid;grid-template-columns:repeat(5,1fr);padding-block:0}
@@ -342,6 +352,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   </div>
 </div>
 
+<div class="sponsor-strip" aria-label="Research sponsors">
+  <div class="wrap">
+    <span class="label">Supported by</span>
+    <ul>
+      <li><img src="assets/logos/nsf.webp" alt="National Science Foundation" title="National Science Foundation"></li>
+      <li><img src="assets/logos/nasa.webp" alt="NASA" title="National Aeronautics and Space Administration"></li>
+      <li><img src="assets/logos/tva.webp" alt="Tennessee Valley Authority" title="Tennessee Valley Authority"></li>
+      <li><img src="assets/logos/doi.webp" alt="U.S. Department of the Interior" title="U.S. Department of the Interior"></li>
+      <li><img src="assets/logos/fhtc.webp" alt="Florida High Tech Corridor" title="Florida High Tech Corridor"></li>
+      <li><img src="assets/logos/teco.webp" alt="Tampa Electric Company (TECO)" title="Tampa Electric Company"></li>
+    </ul>
+  </div>
+</div>
+
 <main>
 <!-- RESEARCH -->
 <section class="block" id="research">
@@ -425,17 +449,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       </div>
     </article>
 
-    <div class="reveal" style="margin-top:40px">
-      <div class="eyebrow" style="margin-bottom:16px">Sponsors</div>
-      <div class="sponsors">
-        <div class="sponsor"><div class="lg"><img src="assets/logos/nsf.webp" alt="NSF logo" loading="lazy"></div><span>National Science Foundation</span></div>
-        <div class="sponsor"><div class="lg"><img src="assets/logos/nasa.webp" alt="NASA logo" loading="lazy"></div><span>National Aeronautics and Space Administration</span></div>
-        <div class="sponsor"><div class="lg"><img src="assets/logos/tva.webp" alt="TVA logo" loading="lazy"></div><span>Tennessee Valley Authority</span></div>
-        <div class="sponsor"><div class="lg"><img src="assets/logos/doi.webp" alt="U.S. Department of the Interior seal" loading="lazy"></div><span>U.S. Department of the Interior</span></div>
-        <div class="sponsor"><div class="lg"><img src="assets/logos/fhtc.webp" alt="Florida High Tech Corridor logo" loading="lazy"></div><span>Florida High Tech Corridor</span></div>
-        <div class="sponsor"><div class="lg"><img src="assets/logos/teco.webp" alt="TECO Energy logo" loading="lazy"></div><span>Tampa Electric Company</span></div>
-      </div>
-    </div>
   </div>
 </section>
 
