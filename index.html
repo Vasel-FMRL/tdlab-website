@@ -90,6 +90,14 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 .re-tag{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:18px;font-family:var(--mono);font-size:.7rem;color:var(--tunnel-muted);text-align:right}
 @media (max-width:640px){.re-tag{display:none}}
 
+/* ---------- latest strip ---------- */
+.latest{background:var(--tunnel);color:var(--tunnel-ink);border-top:1px solid var(--tunnel-line)}
+.latest .wrap{display:flex;align-items:center;gap:12px 18px;padding-block:14px;flex-wrap:wrap}
+.latest .pill{flex:none;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#05140e;background:var(--flow-b);padding:4px 9px;border-radius:2px}
+.latest a.headline{flex:1 1 320px;min-width:0;text-decoration:none;font-family:var(--display);font-weight:600;font-size:.98rem;line-height:1.35}
+.latest a.headline:hover{color:var(--flow-a)}
+.latest a.headline span{font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--tunnel-muted);margin-left:8px;white-space:nowrap}
+.latest a.more-news{flex:none;font-family:var(--mono);font-size:.74rem;color:var(--flow-a);text-decoration:none;border-bottom:1px solid currentColor}
 /* ---------- numbers ---------- */
 .numbers{border-bottom:1px solid var(--line);background:var(--paper)}
 .numbers .wrap{display:grid;grid-template-columns:repeat(5,1fr);padding-block:0}
@@ -316,6 +324,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   </div>
   <div class="re-tag">live flow past a cylinder<br>tap or move to disturb the wake</div>
 </header>
+
+<div class="latest" aria-label="Latest news">
+  <div class="wrap">
+    <span class="pill">Latest</span>
+    <a class="headline" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener">USF engineers develop technology to help nuclear power plants improve maintenance of a critical safety system<span>American Nuclear Society ↗</span></a>
+    <a class="more-news" href="#news">More news ↓</a>
+  </div>
+</div>
 
 <div class="numbers">
   <div class="wrap">
