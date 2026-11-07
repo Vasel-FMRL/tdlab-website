@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The Thermofluids Discovery Laboratory (TD Lab) at the University of South Florida advances fluid dynamics and thermal transport for energy and aerospace.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Thermofluids Discovery Laboratory</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="author" content="Ahmad Vaselbehagh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-bleed flow-field hero, then a single scrolling lab journal with a sticky index bar; sections alternate paper and "tunnel" bands */
+:root{
+  --bg:#f3f5f2; --paper:#ffffff; --ink:#10201b; --muted:#56655f; --line:#d5ddd8;
+  --accent:#006747;        /* USF green */
+  --gold:#b58f2c;          /* USF gold, used for data and highlights */
+  --tunnel:#0c1915; --tunnel-ink:#e6eee9; --tunnel-muted:#93a7a0; --tunnel-line:#24372f;
+  --flow-a:#5fd3a2; --flow-b:#e8c35d;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --radius:6px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
+  --accent:#4cc394; --gold:#e2bd5a;
+  --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
+  --accent:#4cc394; --gold:#e2bd5a;
+  --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--tunnel)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.mono{font-family:var(--mono)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--tunnel) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--tunnel-line);color:var(--tunnel-ink)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap}
+.brand svg{flex:none}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{display:block;padding:8px 11px;border-radius:4px;text-decoration:none;font-family:var(--display);font-size:.9rem;color:var(--tunnel-muted);transition:color .2s,background .2s}
+.nav ul a:hover,.nav ul a.on{color:var(--tunnel-ink);background:var(--tunnel-line)}
+.menu-btn{display:none;margin-left:auto;background:none;border:1px solid var(--tunnel-line);color:var(--tunnel-ink);border-radius:4px;padding:7px 12px;font-family:var(--mono);font-size:.78rem;cursor:pointer}
+@media (max-width:960px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;left:0;right:0;top:60px;flex-direction:column;background:var(--tunnel);border-bottom:1px solid var(--tunnel-line);padding:8px max(20px,env(safe-area-inset-right,0px)) 16px max(20px,env(safe-area-inset-left,0px))}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:12px}
+}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--tunnel);color:var(--tunnel-ink);overflow:hidden;isolation:isolate}
+#flow{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--tunnel) 0%,color-mix(in srgb,var(--tunnel) 70%,transparent) 45%,transparent 80%)}
+.hero .wrap{padding-block:clamp(72px,12vw,150px) clamp(56px,8vw,96px)}
+.hero h1{font-size:clamp(2.6rem,7.4vw,6rem);line-height:.95;font-weight:800;max-width:11ch}
+.hero h1 em{font-style:normal;font-weight:400;color:var(--flow-a);display:block}
+.hero p.lede{max-width:56ch;margin:28px 0 0;font-size:clamp(1.02rem,1.6vw,1.2rem);color:color-mix(in srgb,var(--tunnel-ink) 86%,transparent)}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:34px;font-family:var(--mono);font-size:.78rem;color:var(--tunnel-muted)}
+.hero .meta span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--flow-b);margin-right:8px;vertical-align:middle}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:4px;font-family:var(--display);font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.solid{background:var(--flow-a);color:#05140e}
+.btn.ghost{border-color:var(--tunnel-line);color:var(--tunnel-ink)}
+.btn.ghost:hover{border-color:var(--tunnel-muted)}
+.re-tag{position:absolute;right:max(20px,env(safe-area-inset-right,0px));bottom:18px;font-family:var(--mono);font-size:.7rem;color:var(--tunnel-muted);text-align:right}
+@media (max-width:640px){.re-tag{display:none}}
+
+/* ---------- numbers ---------- */
+.numbers{border-bottom:1px solid var(--line);background:var(--paper)}
+.numbers .wrap{display:grid;grid-template-columns:repeat(5,1fr);padding-block:0}
+.num{padding:26px 18px;border-left:1px solid var(--line)}
+.num:first-child{border-left:0;padding-left:0}
+.num b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,3.6vw,2.7rem);line-height:1;font-variant-numeric:tabular-nums;color:var(--accent)}
+.num span{display:block;margin-top:8px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:760px){.numbers .wrap{grid-template-columns:repeat(2,1fr)}.num{border-left:0;border-top:1px solid var(--line);padding-left:0}.num:nth-child(-n+2){border-top:0}.num:last-child{grid-column:1/-1}}
+
+/* ---------- sections ---------- */
+section.block{padding-block:clamp(64px,9vw,112px)}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:24px 56px;align-items:end;margin-bottom:48px}
+.head h2{font-size:clamp(2rem,4.4vw,3.3rem);line-height:1.02;margin-top:10px}
+.head p{margin:0;color:var(--muted);max-width:58ch}
+@media (max-width:820px){.head{grid-template-columns:1fr}}
+.dark{background:var(--tunnel);color:var(--tunnel-ink)}
+.dark .head p{color:var(--tunnel-muted)}
+
+/* research areas */
+.areas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media (max-width:1000px){.areas{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.areas{grid-template-columns:1fr}}
+.area{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;transition:border-color .25s,transform .25s}
+.area:hover{border-color:var(--accent);transform:translateY(-3px)}
+.area canvas{display:block;width:100%;aspect-ratio:4/3;background:var(--tunnel)}
+.area .txt{padding:18px 18px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.area h3{font-size:1.25rem}
+.area .sp{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.03em}
+.area .sym{font-family:var(--mono);font-size:.78rem;color:var(--gold);margin-top:auto;padding-top:10px}
+
+/* featured projects */
+.proj{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px;padding-block:44px;border-top:1px solid var(--tunnel-line)}
+.proj:first-of-type{border-top:0;padding-top:0}
+.proj h3{font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.1;margin-top:10px}
+.proj .body p{margin:0 0 1em;color:color-mix(in srgb,var(--tunnel-ink) 84%,transparent);max-width:66ch}
+.proj .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tag{font-family:var(--mono);font-size:.72rem;padding:4px 9px;border:1px solid var(--tunnel-line);border-radius:3px;color:var(--tunnel-muted)}
+.proj a.link{color:var(--flow-a);font-family:var(--display);font-weight:600;text-decoration:none;border-bottom:1px solid currentColor}
+.proj .spec{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--tunnel-line);border:1px solid var(--tunnel-line);border-radius:var(--radius);overflow:hidden}
+.proj .spec div{background:var(--tunnel);padding:14px}
+.proj .spec b{display:block;font-family:var(--display);font-size:1.35rem;color:var(--flow-b);font-variant-numeric:tabular-nums}
+.proj .spec span{font-family:var(--mono);font-size:.68rem;color:var(--tunnel-muted);text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:820px){.proj{grid-template-columns:1fr;gap:16px}}
+
+/* publications */
+.pubbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:28px}
+.pubbar input{flex:1 1 260px;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);font:inherit;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--mono);font-size:.76rem;padding:8px 11px;border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--muted);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.featured-pub{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;padding:26px;margin-bottom:28px;border:1px solid var(--accent);border-radius:var(--radius);background:color-mix(in srgb,var(--accent) 7%,var(--paper))}
+.featured-pub .cover{width:110px;aspect-ratio:205/285;border-radius:3px;background:linear-gradient(160deg,var(--accent),var(--tunnel));display:flex;flex-direction:column;justify-content:space-between;padding:10px;color:#fff;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em}
+.featured-pub .cover b{font-family:var(--display);font-size:.95rem;line-height:1.05;letter-spacing:0}
+@media (max-width:560px){.featured-pub{grid-template-columns:1fr}}
+.pubs{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.pub{display:grid;grid-template-columns:70px minmax(0,1fr) auto;gap:6px 22px;padding:20px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.pub .yr{font-family:var(--mono);font-size:.85rem;color:var(--gold);font-variant-numeric:tabular-nums}
+.pub h3{font-family:var(--body);font-weight:600;font-size:1.08rem;line-height:1.35;letter-spacing:0}
+.pub .au{color:var(--muted);font-size:.93rem;margin-top:4px}
+.pub .jr{font-style:italic;font-size:.93rem;margin-top:2px}
+.pub a.go{font-family:var(--mono);font-size:.76rem;color:var(--accent);text-decoration:none;white-space:nowrap;padding:6px 0}
+.pub a.go:hover{text-decoration:underline}
+@media (max-width:640px){.pub{grid-template-columns:1fr}.pub a.go{justify-self:start}}
+.empty{padding:28px 0;color:var(--muted)}
+
+/* books */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px}
+.book{text-decoration:none;display:flex;flex-direction:column;gap:10px}
+.spine{aspect-ratio:2/3;border-radius:2px 5px 5px 2px;padding:14px 12px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 10px 24px -14px rgba(0,0,0,.55);transition:transform .3s}
+.book:hover .spine{transform:translateY(-6px) rotate(-1deg)}
+.spine b{font-family:var(--display);font-size:1rem;line-height:1.1}
+.spine i{font-family:var(--mono);font-style:normal;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.book span{font-size:.88rem;color:var(--muted);line-height:1.35}
+
+/* team */
+.pi{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-bottom:56px}
+@media (max-width:860px){.pi{grid-template-columns:1fr}}
+.person{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;grid-template-columns:76px minmax(0,1fr);gap:18px}
+.mark{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--paper);background:var(--accent)}
+.person h3{font-size:1.3rem}
+.person .role{color:var(--accent);font-family:var(--display);font-weight:600;font-size:.95rem;margin-top:2px}
+.person .dept{color:var(--muted);font-size:.9rem;margin-top:4px}
+.person dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:14px 0 0;font-family:var(--mono);font-size:.78rem}
+.person dt{color:var(--muted)}
+.person dd{margin:0;overflow-wrap:anywhere}
+.person .bio{grid-column:1/-1;font-size:.95rem;color:var(--muted);margin:6px 0 0}
+.person .bio summary{cursor:pointer;color:var(--ink);font-family:var(--display);font-weight:600;font-size:.9rem}
+.person .links{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:16px;font-family:var(--display);font-weight:600;font-size:.9rem}
+.person .links a{color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor}
+.group-title{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:10px;margin:0 0 20px}
+.group-title h3{font-size:1.25rem}
+.group-title span{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:48px}
+.member{display:flex;gap:14px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);min-width:0}
+.member .mark{width:46px;height:46px;font-size:.95rem;flex:none}
+.member b{display:block;font-family:var(--display);font-weight:600}
+.member small{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted);overflow-wrap:anywhere}
+.member .kind{display:inline-block;margin-top:4px;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;padding:2px 6px;border-radius:2px;background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.member .kind.exp{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold)}
+.ug{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 48px;padding:0;list-style:none}
+.ug li{padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:var(--paper);font-family:var(--display);font-size:.92rem}
+/* alumni trajectory */
+.alumni{width:100%;border-collapse:collapse;font-size:.95rem}
+.alumni-scroll{overflow-x:auto}
+.alumni th{text-align:left;font-family:var(--mono);font-weight:400;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 12px 10px 0;border-bottom:1px solid var(--line)}
+.alumni td{padding:13px 12px 13px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.alumni td:first-child{font-family:var(--display);font-weight:600;white-space:nowrap}
+.alumni td.deg{font-family:var(--mono);font-size:.8rem;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums}
+.alumni td.to::before{content:"→ ";color:var(--accent)}
+
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+@media (max-width:860px){.story{grid-template-columns:1fr;gap:32px}}
+.story p{margin:0 0 1.1em;max-width:62ch}
+.route{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:24px}
+.route svg{width:100%;height:auto;display:block}
+.route figcaption{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:10px}
+
+/* safety + news */
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);padding:26px;display:flex;flex-direction:column;gap:10px}
+.panel h3{font-size:1.35rem}
+.panel p{margin:0;color:var(--muted);font-size:.96rem}
+.panel a.btn{align-self:flex-start;margin-top:8px;background:var(--accent);color:var(--paper)}
+.warn{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
+.warn svg{flex:none}
+.news{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:20px}
+@media (max-width:760px){.news{grid-template-columns:1fr}}
+.news a{text-decoration:none;display:block;padding:24px;border-radius:var(--radius);background:var(--tunnel);color:var(--tunnel-ink);transition:transform .25s}
+.news a:hover{transform:translateY(-3px)}
+.news h3{font-size:1.3rem;margin:8px 0 12px}
+.news .more{font-family:var(--mono);font-size:.75rem;color:var(--flow-a)}
+
+/* sponsors */
+.sponsors{display:flex;flex-wrap:wrap;gap:10px}
+.sponsor{flex:1 1 150px;padding:18px;border:1px solid var(--tunnel-line);border-radius:var(--radius);text-align:left}
+.sponsor b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:800;color:var(--tunnel-ink)}
+.sponsor span{font-family:var(--mono);font-size:.68rem;color:var(--tunnel-muted)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px}
+@media (max-width:860px){.contact{grid-template-columns:1fr}}
+.contact h2{font-size:clamp(2.2rem,5vw,3.8rem);line-height:1}
+.c-rows{display:flex;flex-direction:column;border-top:1px solid var(--tunnel-line)}
+.c-row{display:grid;grid-template-columns:90px minmax(0,1fr) auto;gap:14px;align-items:center;padding:18px 0;border-bottom:1px solid var(--tunnel-line)}
+.c-row span{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--tunnel-muted)}
+.c-row b{font-family:var(--display);font-weight:600;font-size:1.05rem;overflow-wrap:anywhere;user-select:all}
+.copy{background:none;border:1px solid var(--tunnel-line);color:var(--tunnel-ink);border-radius:3px;padding:6px 10px;font-family:var(--mono);font-size:.7rem;cursor:pointer}
+.copy:hover{border-color:var(--flow-a);color:var(--flow-a)}
+footer{background:var(--tunnel);color:var(--tunnel-muted);border-top:1px solid var(--tunnel-line);font-family:var(--mono);font-size:.74rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;padding-block:26px}
+
+.reveal{transition:opacity .7s ease,transform .7s ease}
+.reveal.pre{opacity:.001;transform:translateY(18px)}
+@media (prefers-reduced-motion: reduce){.reveal,.reveal.pre{transition:none;opacity:1;transform:none}}
+</style>
+
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="TD Lab home">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="6" fill="none" stroke="var(--flow-a)" stroke-width="2"/><path d="M17 11c4 0 4 4 8 4M17 19c4 0 4-4 8-4" fill="none" stroke="var(--flow-b)" stroke-width="2" stroke-linecap="round"/></svg>
+      TD&nbsp;LAB
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navList">Menu</button>
+    <ul id="navList">
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#books">Books</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#safety">Lab Safety</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="flow" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="eyebrow">University of South Florida · Mechanical &amp; Aerospace Engineering</div>
+    <h1 style="margin-top:18px">Thermofluids <em>Discovery</em> Laboratory</h1>
+    <p class="lede">Understanding thermal fluid sciences enables engineers to design efficient and cost-effective systems. The Thermofluids Discovery Lab (TD Lab) advances fluid dynamics and thermal transport processes through a combination of numerical/analytical analysis and laboratory/field experiments to address challenges in energy and aerospace.</p>
+    <div class="cta">
+      <a class="btn solid" href="#research">Explore our research</a>
+      <a class="btn ghost" href="#publications">Latest publications</a>
+    </div>
+    <div class="meta"><span>Energy</span><span>Aerospace</span><span>Atmosphere</span><span>Tampa, Florida</span></div>
+  </div>
+  <div class="re-tag">live flow past a cylinder<br>tap or move to disturb the wake</div>
+</header>
+
+<div class="numbers">
+  <div class="wrap">
+    <div class="num"><b data-count="53">53</b><span>Students mentored</span></div>
+    <div class="num"><b data-count="11">11</b><span>Ph.D. candidates</span></div>
+    <div class="num"><b data-count="7">7</b><span>Master’s students</span></div>
+    <div class="num"><b data-count="35">35</b><span>Undergraduates</span></div>
+    <div class="num"><b data-count="2017">2017</b><span>Founded</span></div>
+  </div>
+</div>
+
+<main>
+<!-- RESEARCH -->
+<section class="block" id="research">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Research &amp; Initiatives</div><h2>From the boundary layer to the jet wake</h2></div>
+      <p>We study fluid flow and heat transfer across scales that range from the microscopic to the mesoscale, with sponsored programs in nuclear energy, the atmospheric boundary layer, clean aviation and solar energy.</p>
+    </div>
+    <div class="areas">
+      <a class="area reveal" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener">
+        <canvas data-viz="laser" aria-hidden="true"></canvas>
+        <div class="txt"><h3>Nuclear Energy</h3><div class="sp">Sponsored by Tennessee Valley Authority (TVA)</div><div class="sym">λ = 10.6 µm →</div></div>
+      </a>
+      <a class="area reveal" href="#proj-abl">
+        <canvas data-viz="abl" aria-hidden="true"></canvas>
+        <div class="txt"><h3>Atmospheric Boundary Layer</h3><div class="sp">Sponsored by NSF</div><div class="sym">u(z) ∝ ln(z/z₀) →</div></div>
+      </a>
+      <a class="area reveal" href="#proj-clean">
+        <canvas data-viz="airfoil" aria-hidden="true"></canvas>
+        <div class="txt"><h3>Clean Aviation</h3><div class="sp">Sponsored by NASA</div><div class="sym">NH₃ · hybrid-electric →</div></div>
+      </a>
+      <a class="area reveal" href="#publications">
+        <canvas data-viz="solar" aria-hidden="true"></canvas>
+        <div class="txt"><h3>Solar Energy</h3><div class="sp">Sponsored by Tampa Electric Company (TECO)</div><div class="sym">W m⁻² →</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" aria-label="Featured projects">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Featured projects</div><h2>What we are working on now</h2></div>
+      <p>Three programs that show the range of the lab, from simulation to hardware working inside a nuclear plant.</p>
+    </div>
+
+    <article class="proj reveal" id="proj-abl">
+      <div><div class="eyebrow">Contrails · Meso-NH LES</div><h3>A CFD–LES Framework for Simulating Contrail Formation from Ammonia Aviation Fuels</h3>
+        <div class="tags"><span class="tag">Meso-NH</span><span class="tag">LIMA microphysics</span><span class="tag">Anelastic</span><span class="tag">Pseudo-incompressible</span></div></div>
+      <div class="body">
+        <p>Contrail formation is one of the most significant non-CO2 climate impacts of aircraft operations, outweighing the radiative forcing from CO2 emissions by almost a factor of two. Understanding differences in microphysical evolution and optical characteristics between contrails produced by traditional and carbon-free aviation fuels is, therefore, crucial to ensuring the successful development of climate-friendly propulsion systems.</p>
+        <p>While ammonia is considered a promising hydrogen-based fuel alternative, its contrail formation and persistence characteristics remain uncertain owing to unique thermodynamic conditions in the aircraft's wake. While soot, acting as a primary nucleation site in contrails produced by traditional fuels, is absent in the ammonia-system's exhaust, water vapor emissions are significantly increased, and contrail nucleation may still occur on ambient aerosol populations at upper tropospheric levels.</p>
+        <p>To assess the climate impacts of ammonia-powered contrails, a specialized CFD contrail module has been developed within the atmospheric code Meso-NH, based on the microphysical parameterization LIMA (Liquid Ice Multiple Aerosols) and coupled with anelastic and pseudo-incompressible formulations. To reconcile the significantly varying spatial and temporal scales throughout a contrail's lifetime, the model couples two temporal LES domains specialized to the jet, vortex, and early-dissipation regimes by superimposing synthetic atmospheric and wake-turbulence fields. The development of this model paves the way to enabling the first detailed simulation-backed comparison of optical and persistence characteristics between contrails produced by ammonia and kerosene.</p>
+      </div>
+    </article>
+
+    <article class="proj reveal" id="proj-tva">
+      <div><div class="eyebrow">Nuclear · TVA</div><h3>USF engineers develop technology to help nuclear power plants improve maintenance of a critical safety system</h3>
+        <p style="margin-top:18px"><a class="link" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener">Read the article ↗</a></p></div>
+      <div class="body">
+        <p>A power plant’s ice condenser system consists of thousands of “baskets” filled with borated ice. Each basket must be individually lifted and weighed during routine inspections. However, the process used to replenish the gradually melting ice can cause neighboring baskets to freeze together, preventing their individual inspection without labor-intensive work to separate them.</p>
+        <p>We developed a better way to separate the ice baskets to allow for easier inspections. We designed a deicing system that uses a precision laser to cut through the sheets of ice that connect adjacent baskets, allowing the baskets to be safely separated and inspected. Our tool can function more than 40 feet below the surface in freezing conditions and in the tight spaces between the ice baskets.</p>
+        <div class="spec"><div><b>40+ ft</b><span>Working depth</span></div><div><b>1,000s</b><span>Ice baskets per plant</span></div><div><b>&lt; 0 °C</b><span>Operating environment</span></div></div>
+      </div>
+    </article>
+
+    <article class="proj reveal" id="proj-clean">
+      <div><div class="eyebrow">NASA ULI · ASAS sub-team</div><h3>CarbonLess Electric AviatioN (CLEAN)</h3>
+        <div class="tags"><span class="tag">USF</span><span class="tag">Tennessee Tech</span><span class="tag">Tennessee State</span></div></div>
+      <div class="body">
+        <p>CLEAN (CarbonLess Electric AviatioN) is a NASA-sponsored University Leadership Initiative project working toward a zero-emission, 150-passenger airliner powered by an ammonia-fueled hybrid-electric engine. Within the project, our Aircraft Structure and Aero-System (ASAS) sub-team, a collaboration between the University of South Florida, Tennessee Tech University and Tennessee State University, is designing an airframe that can carry the heavier engine and still fly more than 2,100 nautical miles, comparable to a Boeing 737-400.</p>
+        <p>The concept combines two NASA ideas, the truss-braced wing of the NASA/Boeing SUGAR Volt and the aft-mounted Electrofan of NASA’s SUSAN concept. Two turbofans under the wings and one Electrofan at the tail share the propulsion load, which lightens the slender braced wing and lets the aft fan ingest the fuselage boundary layer to reduce drag. Our team is now optimizing the wing and propulsion together for the CLEAN engine, with CFD validation and a truss design to follow.</p>
+        <div class="spec"><div><b>150</b><span>Passengers</span></div><div><b>2,100+ nmi</b><span>Design range</span></div><div><b>3</b><span>Fans · 2 wing + 1 aft</span></div></div>
+      </div>
+    </article>
+
+    <div class="reveal" style="margin-top:40px">
+      <div class="eyebrow" style="margin-bottom:16px">Sponsors</div>
+      <div class="sponsors">
+        <div class="sponsor"><b>NSF</b><span>National Science Foundation</span></div>
+        <div class="sponsor"><b>NASA</b><span>National Aeronautics and Space Administration</span></div>
+        <div class="sponsor"><b>TVA</b><span>Tennessee Valley Authority</span></div>
+        <div class="sponsor"><b>DOI</b><span>U.S. Department of the Interior</span></div>
+        <div class="sponsor"><b>TECO</b><span>Tampa Electric Company</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="block" id="publications">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Publications</div><h2>Journal publications since 2017</h2></div>
+      <p>Journal papers since the lab’s establishment. Search by author, title or journal, or filter by research theme.</p>
+    </div>
+
+    <div class="featured-pub reveal">
+      <div class="cover"><span>ENERGY MATERIALS · 6(3)</span><b>Featured on the cover</b><span>2026</span></div>
+      <div>
+        <div class="eyebrow">Cover article</div>
+        <h3 style="font-family:var(--body);font-size:1.3rem;margin-top:6px">Photovoltaic plant losses: spectral mismatch</h3>
+        <div style="color:var(--muted);margin-top:4px">Torge Bohlken, Ty Hagan, Ahmad Vasel-Be-Hagh, Arash Takshi</div>
+        <div style="font-style:italic">Energy Materials, 6 (3), 600030, 2026</div>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:.78rem">
+          <a style="color:var(--accent)" href="https://www.oaepublish.com/articles/energymater.2025.156" target="_blank" rel="noopener">Read the full text ↗</a>
+          <a style="color:var(--accent)" href="https://www.oaepublish.com/volumes/energymater.1986" target="_blank" rel="noopener">See the cover ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pubbar">
+      <label for="pubSearch" class="eyebrow" style="position:absolute;left:-9999px">Search publications</label>
+      <input id="pubSearch" type="search" placeholder="Search author, title, journal…">
+      <div class="chips" id="chips" role="group" aria-label="Filter by theme"></div>
+    </div>
+    <ol class="pubs" id="pubList"></ol>
+    <p class="empty" id="pubEmpty" hidden>No publications match that search.</p>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section class="block" id="books" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Books &amp; Proceedings</div><h2>Edited volumes</h2></div>
+      <p>Books and conference proceedings, many from the Cleaner Earth and Atmosphere conference series.</p>
+    </div>
+    <div class="shelf" id="shelf"></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="block" id="team" style="background:color-mix(in srgb,var(--accent) 4%,var(--bg));border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Our Team</div><h2>The people behind the lab</h2></div>
+      <p>Faculty, postdocs and students working across computation and experiment.</p>
+    </div>
+
+    <div class="pi">
+      <article class="person reveal">
+        <div class="mark" aria-hidden="true">AV</div>
+        <div>
+          <div class="eyebrow">Principal investigator</div>
+          <h3 style="margin-top:6px">Ahmad Vaselbehagh, Ph.D.</h3>
+          <div class="role">Associate Professor &amp; Aerospace Engineering Director</div>
+          <div class="dept">Department of Mechanical and Aerospace Engineering, University of South Florida</div>
+          <dl><dt>Email</dt><dd>vaselbehagh@usf.edu</dd><dt>Phone</dt><dd>813-974-7664</dd><dt>Office</dt><dd>ENC 3505 &amp; BEH 300D</dd></dl>
+        </div>
+        <details class="bio"><summary>Biography</summary>
+          <p>I joined the University of South Florida's Department of Mechanical &amp; Aerospace Engineering in the Spring of 2024, where I also serve as the director of the Aerospace Engineering Program. Previously, I served as an Associate Professor (2024) and Assistant Professor (2017-2024) of Mechanical Engineering at Tennessee Tech University. Before joining Tennessee Tech, I was a postdoctoral researcher at the University of Delaware (2015-2017). I received my Ph.D. in Mechanical Engineering from the University of Windsor, Canada, in 2015. My research interests include thermal fluid sciences for energy and aerospace applications. I teach Turbulence, Propulsion, and Fluid Systems at USF. I taught Fluid Mechanics, Intermediate Fluid Mechanics, Atmospheric Fluid Mechanics, Thermodynamics, Conduction Heat Transfer, and Turbulence at Tennessee Tech.</p>
+        </details>
+        <div class="links"><a href="https://www.tdlab.info/_files/ugd/4fed22_5943b9ce6c6e4d7eb63b77fad4dec3a6.pdf" target="_blank" rel="noopener">Download CV ↗</a><a href="https://www.usf.edu/engineering/me/index.aspx" target="_blank" rel="noopener">Department website ↗</a></div>
+      </article>
+      <article class="person reveal">
+        <div class="mark" aria-hidden="true" style="background:var(--gold)">MD</div>
+        <div>
+          <div class="eyebrow">Research faculty</div>
+          <h3 style="margin-top:6px">Mohammad Doranehgard, Ph.D.</h3>
+          <div class="role">Assistant Professor of Research</div>
+          <div class="dept">Department of Mechanical and Aerospace Engineering, University of South Florida</div>
+          <dl><dt>Email</dt><dd>doranehgard@usf.edu</dd><dt>Phone</dt><dd>813-974-7664</dd><dt>Office</dt><dd>BEH 320</dd></dl>
+        </div>
+        <div class="links"><a href="https://www.tdlab.info/_files/ugd/4fed22_3280626860f9405f9269e38dc7be8fe7.pdf" target="_blank" rel="noopener">Download CV ↗</a></div>
+      </article>
+    </div>
+
+    <div class="group-title"><h3>Postdoctoral research associates</h3><span id="cPost"></span></div>
+    <div class="roster" id="postdocs"></div>
+    <div class="group-title"><h3>Ph.D. students</h3><span id="cPhd"></span></div>
+    <div class="roster" id="phds"></div>
+    <div class="group-title"><h3>Undergraduate research assistants</h3><span>3 current</span></div>
+    <ul class="ug"><li>Kevin Ferrer Sanchez</li><li>Conner Schilaty</li><li>Sebastian Andres Carias Fortin</li></ul>
+
+    <div class="group-title"><h3>Lab alumni</h3><span>where they went next</span></div>
+    <div class="alumni-scroll">
+      <table class="alumni">
+        <thead><tr><th>Name</th><th>Degree</th><th>Now</th></tr></thead>
+        <tbody id="alumni"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Our Story</div><h2>Cookeville to Tampa</h2></div>
+      <p>The lab started at Tennessee Tech in 2017 and moved to USF with a new name and a bigger scope.</p>
+    </div>
+    <div class="story">
+      <div class="reveal">
+        <p>Back in 2017, we kicked off our journey at Tennessee Tech University in Cookeville, TN, as the Fluid Mechanics Research Lab. Recently, we relocated to the University of South Florida and adopted a new name, the Thermofluids Discovery Laboratory. This move marks the start of an exciting new chapter as we continue to grow and expand our research.</p>
+        <p>Over the years, the lab has provided research opportunities and mentorship to 53 students, including 11 Ph.D. candidates, 7 master’s students, and 35 undergraduates. Many of these students have gone on to build successful careers, and the lab has been an important part of their training and professional growth.</p>
+        <p>The TD Lab houses a wide range of experimental and computational tools, from lasers and optical systems to fully instrumented portable weather towers. With these resources, we are able to investigate fluid flow and heat transfer across scales that range from the microscopic to the mesoscale.</p>
+      </div>
+      <figure class="route reveal" style="margin:0">
+        <svg viewBox="0 0 420 300" role="img" aria-label="Scale diagram from micrometres to kilometres">
+          <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">
+            <line x1="30" y1="250" x2="400" y2="250" stroke="var(--line)" stroke-width="1"/>
+            <g id="ticks"></g>
+          </g>
+          <g id="bars"></g>
+        </svg>
+        <figcaption>Scales the lab works across, from a 10.6 µm laser wavelength to the kilometre-deep boundary layer.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY + NEWS -->
+<section class="block" id="safety" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Lab Safety</div><h2>Before you enter the lab</h2></div>
+      <p>Every lab member reads both guides before working with lasers or equipment.</p>
+    </div>
+    <div class="split">
+      <div class="panel reveal">
+        <div class="warn"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1.5 17 16H1z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="11" r="1.8" fill="currentColor"/></svg>Laser area</div>
+        <h3>Laser Safety</h3>
+        <p>Procedures, eyewear and controls for working with the lab’s lasers and optical systems.</p>
+        <a class="btn" href="https://www.tdlab.info/_files/ugd/4fed22_9b7c34116f304bd28a4dd3c2e7b26c44.pdf" target="_blank" rel="noopener">Laser Safety Guide ↗</a>
+      </div>
+      <div class="panel reveal">
+        <div class="warn"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 9.5 8 12l5-6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Every visit</div>
+        <h3>Housekeeping</h3>
+        <p>How we keep the lab clean, organized and ready for the next experiment.</p>
+        <a class="btn" href="https://www.tdlab.info/_files/ugd/4fed22_a8a58b36810047fa96092c6772f2c7b0.pdf" target="_blank" rel="noopener">Housekeeping Guide ↗</a>
+      </div>
+    </div>
+    <div class="news">
+      <a class="reveal" href="https://www.caeconference.ca/" target="_blank" rel="noopener"><div class="eyebrow">Conference</div><h3>Join us at the 10th Cleaner Earth and Atmosphere Conference</h3><span class="more">caeconference.ca ↗</span></a>
+      <a class="reveal" href="https://www.sarasotamanatee.usf.edu/magazine/2024/now-arriving.aspx" target="_blank" rel="noopener"><div class="eyebrow">Feature</div><h3>Reach New Heights. Aerospace Engineering at USF</h3><span class="more">Learn more ↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="block dark" id="contact">
+  <div class="wrap contact">
+    <div class="reveal">
+      <div class="eyebrow">Contact Us</div>
+      <h2 style="margin-top:12px">Work with<br>the TD Lab</h2>
+      <p style="color:var(--tunnel-muted);max-width:44ch;margin-top:20px">Prospective students, collaborators and sponsors are welcome to get in touch.</p>
+    </div>
+    <div class="c-rows reveal">
+      <div class="c-row"><span>Email</span><b id="cEmail">vaselbehagh@usf.edu</b><button class="copy" data-copy="cEmail">Copy</button></div>
+      <div class="c-row"><span>Phone</span><b id="cPhone">813-974-7664</b><button class="copy" data-copy="cPhone">Copy</button></div>
+      <div class="c-row"><span>Address</span><b id="cAddr">4202 E. Fowler Avenue, ENC 3505, Tampa, FL 33620, USA</b><button class="copy" data-copy="cAddr">Copy</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Thermofluids Discovery Laboratory · University of South Florida</span>
+    <span>Formerly the Fluid Mechanics Research Lab, Tennessee Tech (2017)</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- nav ---------- */
+const btn=document.getElementById('menuBtn'), list=document.getElementById('navList');
+btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
+list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{list.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
+const links=[...list.querySelectorAll('a')];
+const secObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
+['research','publications','books','team','about','safety','contact'].forEach(id=>{const s=document.getElementById(id);if(s)secObs.observe(s)});
+
+/* ---------- reveal (content visible at rest; only below-fold items animate in) ---------- */
+if(!reduce && 'IntersectionObserver' in window){
+  const vh=innerHeight;
+  const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.remove('pre');ro.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>{if(el.getBoundingClientRect().top>vh){el.classList.add('pre');ro.observe(el)}});
+}
+
+/* ---------- count up ---------- */
+if(!reduce){
+  const nums=document.querySelectorAll('[data-count]');
+  const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);
+    const el=e.target,end=+el.dataset.count,start=end>1000?end-9:0,t0=performance.now();
+    (function tick(t){const p=Math.min(1,(t-t0)/1200),v=Math.round(start+(end-start)*(1-Math.pow(1-p,3)));el.textContent=v;if(p<1)requestAnimationFrame(tick)})(t0);
+  }));
+  nums.forEach(n=>co.observe(n));
+}
+
+/* ---------- hero flow field: potential flow past a cylinder + shed vortices ---------- */
+const cv=document.getElementById('flow'),ctx=cv.getContext('2d');
+let W,H,R,cx,cy,parts=[],vort=[],mouse=null,shed=0,sign=1,dpr=Math.min(2,devicePixelRatio||1);
+function size(){const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  R=Math.max(26,Math.min(H*.11,70));cx=W>760?W*.66:W*.5;cy=H*.5;
+  parts=[];const n=Math.round(Math.min(1400,W*H/700));for(let i=0;i<n;i++)parts.push(seed(true));
+  ctx.fillStyle=css('--tunnel');ctx.fillRect(0,0,W,H)}
+function seed(any){return{x:any?Math.random()*W:-5,y:Math.random()*H,age:Math.random()*200}}
+const U=1.4;
+function vel(x,y){
+  const dx=x-cx,dy=y-cy,r2=dx*dx+dy*dy,R2=R*R;
+  let u=U*(1-R2*(dx*dx-dy*dy)/(r2*r2)),v=-U*R2*2*dx*dy/(r2*r2);
+  for(const k of vort){const ex=x-k.x,ey=y-k.y,d2=ex*ex+ey*ey+R2*.12;u+=-k.g*ey/d2;v+=k.g*ex/d2}
+  if(mouse){const ex=x-mouse.x,ey=y-mouse.y,d2=ex*ex+ey*ey+400;u+=-90*ey/d2*mouse.s;v+=90*ex/d2*mouse.s}
+  return[u,v]}
+const ca=()=>css('--flow-a'),cb=()=>css('--flow-b');
+let colA,colB,bg;
+function step(){
+  ctx.fillStyle=bg+'22';ctx.fillRect(0,0,W,H);
+  if(++shed>46){shed=0;sign=-sign;vort.push({x:cx+R*1.1,y:cy+sign*R*.55,g:sign*-R*1.25})}
+  vort.forEach(k=>{k.x+=U*.9;k.g*=.997});vort=vort.filter(k=>k.x<W+R*3);
+  if(mouse){mouse.s*=.96;if(mouse.s<.02)mouse=null}
+  ctx.lineWidth=1;
+  for(const p of parts){
+    const[u,v]=vel(p.x,p.y),nx=p.x+u,ny=p.y+v;
+    const sp=Math.hypot(u,v);
+    ctx.strokeStyle=sp>U*1.25?colB:colA;ctx.globalAlpha=Math.min(.85,.25+sp*.25);
+    ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(nx,ny);ctx.stroke();
+    p.x=nx;p.y=ny;p.age++;
+    const ddx=p.x-cx,ddy=p.y-cy;
+    if(p.x>W+5||p.y<-5||p.y>H+5||ddx*ddx+ddy*ddy<R*R*.98||p.age>420)Object.assign(p,seed(false),{age:0});
+  }
+  ctx.globalAlpha=1;
+  ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle=colA;ctx.globalAlpha=.6;ctx.stroke();ctx.globalAlpha=1;
+}
+function colors(){colA=ca();colB=cb();bg=css('--tunnel');if(bg.length===4)bg='#'+[...bg.slice(1)].map(c=>c+c).join('')}
+function staticDraw(){for(let i=0;i<260;i++)step()}
+let visible=true;
+new IntersectionObserver(e=>visible=e[0].isIntersecting).observe(cv);
+function loop(){if(visible&&!document.hidden)step();requestAnimationFrame(loop)}
+function poke(e){const r=cv.getBoundingClientRect(),t=e.touches?e.touches[0]:e;mouse={x:t.clientX-r.left,y:t.clientY-r.top,s:1}}
+const hero=document.querySelector('.hero');
+hero.addEventListener('pointermove',poke);hero.addEventListener('pointerdown',poke);
+colors();size();
+if(reduce)staticDraw();else{staticDraw();loop()}
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{colors();size();if(reduce)staticDraw()},150)});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{colors();drawCards()});
+
+/* ---------- research card visuals ---------- */
+function drawCards(){
+  document.querySelectorAll('canvas[data-viz]').forEach(c=>{
+    const r=c.getBoundingClientRect(),w=r.width,h=r.height;if(!w)return;
+    c.width=w*dpr;c.height=h*dpr;const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+    const A=css('--flow-a'),B=css('--flow-b'),M=css('--tunnel-muted'),L=css('--tunnel-line');
+    g.fillStyle=css('--tunnel');g.fillRect(0,0,w,h);
+    g.strokeStyle=L;g.lineWidth=1;for(let x=0;x<w;x+=20){g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke()}for(let y=0;y<h;y+=20){g.beginPath();g.moveTo(0,y);g.lineTo(w,y);g.stroke()}
+    const k=c.dataset.viz;
+    if(k==='laser'){ // ice baskets with laser cut
+      const n=5,bw=w/(n*1.6);
+      for(let i=0;i<n;i++){const x=w*.12+i*bw*1.55;g.strokeStyle=M;g.strokeRect(x,h*.18,bw,h*.66);
+        for(let y=h*.2;y<h*.82;y+=8){g.beginPath();g.moveTo(x,y);g.lineTo(x+bw,y+4);g.stroke()}}
+      g.strokeStyle=B;g.lineWidth=2;g.shadowColor=B;g.shadowBlur=12;g.beginPath();g.moveTo(w*.5,0);g.lineTo(w*.5,h*.62);g.stroke();g.shadowBlur=0;
+      g.fillStyle=B;g.beginPath();g.arc(w*.5,h*.62,4,0,7);g.fill();
+    } else if(k==='abl'){ // log wind profile + tower
+      g.strokeStyle=M;g.beginPath();g.moveTo(w*.18,h*.9);g.lineTo(w*.18,h*.08);g.stroke();
+      for(let i=1;i<=5;i++){const y=h*.9-i*(h*.8/5);g.beginPath();g.moveTo(w*.14,y);g.lineTo(w*.22,y);g.stroke()}
+      g.strokeStyle=A;g.lineWidth=2;g.beginPath();
+      for(let i=0;i<=60;i++){const z=i/60,y=h*.9-z*h*.8,u=Math.log(1+z*60)/Math.log(61);const x=w*.22+u*w*.62;i?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();
+      g.lineWidth=1;for(let i=1;i<=5;i++){const z=i/5,y=h*.9-z*h*.8,u=Math.log(1+z*60)/Math.log(61),x=w*.22+u*w*.62;g.strokeStyle=B;g.beginPath();g.moveTo(w*.22,y);g.lineTo(x-4,y);g.stroke();g.beginPath();g.moveTo(x-4,y-3);g.lineTo(x,y);g.lineTo(x-4,y+3);g.stroke()}
+      g.strokeStyle=M;g.beginPath();g.moveTo(0,h*.9);g.lineTo(w,h*.9);g.stroke();
+    } else if(k==='airfoil'){ // NACA 2412 with streamlines
+      const ch=w*.62,x0=w*.18,y0=h*.52,t=.12,m=.02,p=.4;
+      const pts=[],low=[];
+      for(let i=0;i<=80;i++){const x=(1-Math.cos(Math.PI*i/80))/2,yt=5*t*(.2969*Math.sqrt(x)-.126*x-.3516*x*x+.2843*x**3-.1015*x**4),yc=x<p?m/p/p*(2*p*x-x*x):m/(1-p)**2*(1-2*p+2*p*x-x*x);pts.push([x0+x*ch,y0-(yc+yt)*ch]);low.push([x0+x*ch,y0-(yc-yt)*ch])}
+      for(let j=-4;j<=4;j++){if(!j)continue;g.strokeStyle=Math.abs(j)===1?B:A;g.globalAlpha=1-Math.abs(j)*.17;g.beginPath();for(let i=0;i<=60;i++){const x=i/60*w,s=(x-x0)/ch,bump=s>-.1&&s<1.2?Math.sin(Math.PI*Math.min(1,Math.max(0,(s+.1)/1.3)))*(j<0?.10:.05)*ch/Math.abs(j):0;const y=y0+j*h*.1-(j<0?bump:-bump*.4);i?g.lineTo(x,y):g.moveTo(x,y)}g.stroke()}
+      g.globalAlpha=1;g.fillStyle=css('--tunnel');g.strokeStyle=A;g.lineWidth=1.5;g.beginPath();pts.forEach((q,i)=>i?g.lineTo(...q):g.moveTo(...q));low.reverse().forEach(q=>g.lineTo(...q));g.closePath();g.fill();g.stroke();
+    } else if(k==='solar'){ // PV array rows + sun rays
+      g.strokeStyle=B;g.lineWidth=1.2;for(let i=0;i<7;i++){const a=Math.PI*.95+i*.12;g.beginPath();g.moveTo(w*.85,h*.16);g.lineTo(w*.85+Math.cos(a)*w*.9,h*.16-Math.sin(a)*w*.9);g.globalAlpha=.35;g.stroke()}
+      g.globalAlpha=1;g.fillStyle=B;g.beginPath();g.arc(w*.85,h*.16,10,0,7);g.fill();
+      for(let i=0;i<4;i++){const y=h*.55+i*h*.1,x=w*.08+i*w*.05;g.fillStyle=A;g.globalAlpha=.25+i*.12;g.beginPath();g.moveTo(x,y);g.lineTo(x+w*.6,y);g.lineTo(x+w*.55,y-h*.08);g.lineTo(x-w*.05,y-h*.08);g.closePath();g.fill();g.globalAlpha=1;g.strokeStyle=A;g.stroke()}
+    }
+  });
+}
+drawCards();let rc;addEventListener('resize',()=>{clearTimeout(rc);rc=setTimeout(drawCards,150)});
+
+/* ---------- publications ---------- */
+const P=[
+["Photovoltaic plant losses: spectral mismatch","Torge Bohlken, Ty Hagan, Ahmad Vasel-Be-Hagh, Arash Takshi","Energy Materials, 6 (3), 600030",2026,"https://www.oaepublish.com/articles/energymater.2025.156","Solar"],
+["Optical Losses in Photovoltaic Solar Panels: Mechanisms, Modeling Approaches, and Mitigation Strategies","Karam Shahrouri, Ahmed Gamal Tolba, Mohammad Hossein Doranehgard, Ahmad Vaselbehagh","Thermal Science and Engineering Progress, Vol. 71, 104557",2026,"https://doi.org/10.1016/j.tsep.2026.104557","Solar"],
+["The Effect of Air Moisture on the Energy Transfer Rate via a 10.6-micron Infrared Laser Beam","Devin Roland and Ahmad Vaselbehagh","Applied Thermal Engineering, Vol. 289, 129871",2026,"https://www.sciencedirect.com/science/article/pii/S1359431126001791","Lasers"],
+["Ammonia versus Kerosene Contrails: A Review","Ryan Medlin, Spencer Meeks, Ahmad Vasel-Be-Hagh, Jason Damazo, and Rory Roberts","Progress in Aerospace Sciences, Vol. 153, 101074",2025,"https://www.sciencedirect.com/science/article/abs/pii/S0376042124001003","Aviation"],
+["Effects of Fiber Arrangement on Flow Characteristics Along a Four-Fiber Element of Fiber Extractors","Oluwaseyi O. Ayeni, Holly A. Stretz, and Ahmad Vasel-Be-Hagh","Micromachines, Vol. 16, no. 4, 425",2025,"https://www.mdpi.com/2072-666X/16/4/425","Microfluidics"],
+["Homogeneous Boiling over Melting Ice","Ty Hagan and Ahmad Vasel-Be-Hagh","Scientific Reports, Vol. 15, 198",2025,"https://www.nature.com/articles/s41598-024-84470-5","Lasers"],
+["Wind Farm Active Wake Control via Concurrent Yaw and Tip-Speed Ratio Optimization","Amir Hosseini, Daniel Trevor Cannon and Ahmad Vasel-Be-Hagh","Applied Energy, 377, 124625",2025,"https://www.sciencedirect.com/science/article/pii/S0306261924020087","Wind"],
+["Thermodynamic Evaluation of Contrail Formation from a Conventional Jet Fuel and an Ammonia-based Aviation Propulsion System","Trevor Cannon, Ty Hagan, Trevor Kramer, David Schafer, Spencer Meeks, Ryan Medlin, Devin Roland, Ahmad Vasel-Be-Hagh, Rory Roberts","Communications Engineering, Vol. 3, 165",2024,"https://www.nature.com/articles/s44172-024-00312-2","Aviation"],
+["Daytime Thermal Effects of Solar Photovoltaic Systems: Field Measurements","Daniel Trevor Cannon and Ahmad Vasel-Be-Hagh","Journal of Renewable and Sustainable Energy, 16, 056501",2024,"https://www.tdlab.info/_files/ugd/4fed22_b29414e6f1e74704bacb73dd4f2094f3.pdf","Solar"],
+["A Core Element CFD Model for a Two-Phase Microfluidic Fiber Extractor","Oluwaseyi O. Ayeni, Holly A. Stretz and Ahmad Vasel-Be-Hagh","Chemical Engineering and Processing: Process Intensification, 202, 109842",2024,"https://www.sciencedirect.com/science/article/abs/pii/S0255270124001806","Microfluidics"],
+["Deciphering Unknown Upstream Conditions and Downstream Turbulent Flow Evolution via Neural Networks","Reza Nouri and Ahmad Vasel-Be-Hagh","Ocean Engineering, 297, 116977",2024,"https://www.sciencedirect.com/science/article/abs/pii/S0029801824003147","Turbulence"],
+["The Jensen Wind Farm Parameterization","Yulong Ma, Cristina L. Archer, and Ahmad Vasel-Be-Hagh","Wind Energy Science, 7, 2407–2431",2022,"https://wes.copernicus.org/articles/7/2407/2022/","Wind"],
+["Tip Speed Ratio Optimization: More Energy Production with Reduced Rotor Speed","Amir Hosseini, Daniel Trevor Cannon, and Ahmad Vasel-Be-Hagh","Wind, 2(4), 691–710",2022,"https://www.mdpi.com/2674-032X/2/4/36","Wind"],
+["Comparison of Individual Versus Ensemble Wind Farm Parameterizations Inclusive of Sub-grid Wakes for the WRF Model","Yulong Ma, Cristina L. Archer, and Ahmad Vasel-Be-Hagh","Wind Energy, 25(9), 1573–1595",2022,"https://www.mdpi.com/2674-032X/2/4/36","Wind"],
+["On the Effect of Reynolds Number and Structural Parameters on Vortex-Induced Vibrations","Michael Hackler, Ahmad Vasel-Be-Hagh, Byron Pardue","International Journal of Fluid Mechanics Research, 48(2), 1–14",2022,"https://www.dl.begellhouse.com/journals/71cb29ca5b40f8f8,426722aa0bf9bef3,062150623e139c89.html","Turbulence"],
+["Wind Turbine Wake Control Strategies: A Review and Concept Proposal","Ryan Nash, Reza Nouri, Ahmad Vasel-Be-Hagh","Energy Conversion and Management, 245, 114581",2021,"https://www.sciencedirect.com/science/article/abs/pii/S0196890421007573","Wind"],
+["The Coriolis Force and the Direction of Rotation of the Blades Significantly Affect the Wake of Wind Turbines","Reza Nouri, Ahmad Vasel-Be-Hagh, Cristina L. Archer","Applied Energy, 277, 115511",2020,"https://www.sciencedirect.com/science/article/abs/pii/S0306261920310230","Wind"],
+["A Novel Framework for Integrated Energy Optimization of a Cement Plant: An Industrial Case Study","Weiping Zhang, Akbar Maleki, Morteza Gholipour Khajeh, Yifeng Zhang, Seyed Mostafa Mortazavi, Ahmad Vasel-Be-Hagh","Sustainable Energy Technologies and Assessments, 35, 245–256",2019,"https://www.sciencedirect.com/science/article/abs/pii/S2213138818305575","Energy systems"],
+["Wake Steering via Yaw Control in Multi-turbine Wind Farms: Recommendations based on Large-Eddy Simulation","Cristina L. Archer, Ahmad Vasel-Be-Hagh","Sustainable Energy Technologies and Assessments, 33, 34–43",2019,"https://www.sciencedirect.com/science/article/abs/pii/S2213138818306544","Wind"],
+["The VERTEX Field Campaign: Observations of Near-Ground Effects of Wind Turbine Wakes","Cristina L Archer, Sicheng Wu, Ahmad Vasel-Be-Hagh, Joseph F Brodie, Ruben Delgado, Alexandra St. Pé, Steven Oncley, Steven Semmer","Journal of Turbulence, 20(1), 64–92",2019,"https://www.tandfonline.com/doi/abs/10.1080/14685248.2019.1572161","Wind"],
+["Review and Evaluation of Wake Loss Models for Wind Energy Applications","Cristina L Archer, Ahmadreza Vasel-Be-Hagh, Chi Yan, Sicheng Wu, Yang Pan, Joseph F Brodie, A Eoghan Maguire","Applied Energy, 226, 1187–1207",2018,"https://www.sciencedirect.com/science/article/abs/pii/S030626191830802X","Wind"],
+["The Effect of Wind Direction on the Performance of Solar PV Plants","Ahmad Vasel-Be-Hagh, Frantzis Iakovidis","Energy Conversion and Management, 153, 455–461",2017,"https://www.sciencedirect.com/science/article/abs/pii/S0196890417309020","Solar"]
+];
+const themes=['All',...new Set(P.map(p=>p[5]))];
+let theme='All';
+const chips=document.getElementById('chips');
+themes.forEach(t=>{const b=document.createElement('button');b.className='chip';b.textContent=t+(t==='All'?' · '+P.length:'');b.setAttribute('aria-pressed',t===theme);b.onclick=()=>{theme=t;chips.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));renderPubs()};chips.appendChild(b)});
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const q=document.getElementById('pubSearch');q.addEventListener('input',renderPubs);
+function renderPubs(){
+  const s=q.value.trim().toLowerCase();
+  const rows=P.filter(p=>(theme==='All'||p[5]===theme)&&(!s||(p[0]+' '+p[1]+' '+p[2]).toLowerCase().includes(s)));
+  document.getElementById('pubList').innerHTML=rows.map(p=>`<li class="pub"><div class="yr">${p[3]}</div><div><h3>${esc(p[0])}</h3><div class="au">${esc(p[1])}</div><div class="jr">${esc(p[2])}, ${p[3]}</div></div><a class="go" href="${p[4]}" target="_blank" rel="noopener">Full text ↗</a></li>`).join('');
+  document.getElementById('pubEmpty').hidden=rows.length>0;
+}
+renderPubs();
+
+/* ---------- books ---------- */
+const BK=[
+["Brightening Tomorrow Together","2024",null,"#7a5a14"],
+["Environmental Management of Air, Water, Agriculture, and Energy","Routledge","https://www.routledge.com/Environmental-Management-of-Air-Water-Agriculture-and-Energy/Vasel-Be-Hagh-Ting/p/book/9780367184841","#1f4b3d"],
+["Advances in Sustainable Energy","Springer","https://link.springer.com/book/10.1007/978-3-030-05636-0","#2b5a72"],
+["Utility-scale Wind Turbines and Wind Farms","IET","https://shop.theiet.org/utility-scale-wind-turbines-and-wind-farms","#3c3f6b"],
+["Engineering to Adapt","Springer","https://link.springer.com/book/10.1007/978-3-031-47237-4","#006747"],
+["Responsible Engineering and Living","Springer","https://link.springer.com/book/10.1007/978-3-031-20506-4","#7b3b2c"],
+["Complementary Resources for Tomorrow","Springer","https://link.springer.com/book/10.1007/978-3-030-38804-1","#4f6224"],
+["Sustaining Tomorrow","Springer","https://link.springer.com/book/10.1007/978-3-030-64715-5","#245c63"],
+["Mitigating Climate Change","Springer","https://link.springer.com/book/10.1007/978-3-030-92148-4","#5a3566"],
+["The Energy Mix for Sustaining Our Future","Springer","https://link.springer.com/book/10.1007/978-3-030-00105-6","#8a6a1a"]
+];
+document.getElementById('shelf').innerHTML=BK.map(b=>{const inner=`<div class="spine" style="background:linear-gradient(170deg,${b[3]},color-mix(in srgb,${b[3]} 60%,#000))"><i>${b[1]}</i><b>${esc(b[0])}</b><i>Vasel-Be-Hagh et al.</i></div><span>${esc(b[0])}</span>`;return b[2]?`<a class="book reveal" href="${b[2]}" target="_blank" rel="noopener">${inner}</a>`:`<div class="book reveal">${inner}</div>`}).join('');
+
+/* ---------- team ---------- */
+const ini=n=>n.replace(/^Dr\.\s*/,'').split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('');
+const card=(n,e,k,i)=>`<div class="member"><div class="mark" aria-hidden="true" style="background:${i%2?'var(--gold)':'var(--accent)'}">${ini(n)}</div><div style="min-width:0"><b>${n}</b><small>${e}</small><span class="kind ${k==='EXPERIMENTAL'?'exp':''}">${k}</span></div></div>`;
+const post=[["Dr. Mohamed Abassi","mabassi@usf.edu","COMPUTATIONAL"]];
+const phd=[["Devin Roland","daroland@usf.edu","COMPUTATIONAL"],["Torge Bohlken","tbohlken@usf.edu","COMPUTATIONAL"],["Sara Arroyave","arroyaves@usf.edu","COMPUTATIONAL"],["Mike Edgemon","michaele1@usf.edu","COMPUTATIONAL"],["Abdelrahman Abdelrady","abdelrady@usf.edu","COMPUTATIONAL"],["Yoseph Keisi","keisi@usf.edu","COMPUTATIONAL"],["Ahmed Tolba","ahmedtolba@usf.edu","EXPERIMENTAL"],["Dexter Limcangco","dexterlimcangco@usf.edu","COMPUTATIONAL"]];
+document.getElementById('postdocs').innerHTML=post.map((p,i)=>card(...p,i)).join('');
+document.getElementById('phds').innerHTML=phd.map((p,i)=>card(...p,i)).join('');
+document.getElementById('cPost').textContent=post.length+' current';
+document.getElementById('cPhd').textContent=phd.length+' current';
+const AL=[
+["Dr. Scott Vanderlan","Ph.D., 2025","Scientist at Oak Ridge National Laboratory"],
+["Dr. Ty Hagan","Ph.D., 2024","Postdoctoral Researcher at the University of South Florida"],
+["Dr. Trevor Cannon","Ph.D., 2024","Postdoctoral Researcher at Tennessee Technological University"],
+["Dr. Reza Nouri","Ph.D., 2023","Postdoctoral Researcher at the University of Memphis"],
+["Dr. Douglas Clark","Ph.D., 2021","Scientist at Oak Ridge National Laboratory"],
+["Warren Sims","M.Sc., 2024","Engineer, Oak Ridge National Laboratory"],
+["Devin Roland","M.Sc., 2023","Ph.D. Student at the University of South Florida"],
+["Hollee Sadler","M.Sc., 2021","Launch Operations Engineer at NASA"],
+["Michael Hackler","M.Sc., 2021","Senior Associate at Consolidated Nuclear Security, LLC."],
+["Ryan Nash","M.Sc., 2020","Arnold Air Force Base Wind Tunnel Facility"],
+["Madison Dittner","M.Sc., 2020","United States Patent and Trademark Office"],
+["Cody Long","M.Sc., 2020","Y-12 National Security Complex"]
+];
+document.getElementById('alumni').innerHTML=AL.map(a=>`<tr><td>${a[0]}</td><td class="deg">${a[1]}</td><td class="to">${a[2]}</td></tr>`).join('');
+
+/* ---------- scale diagram ---------- */
+const S=[["10.6 µm laser wavelength",-5],["Microfluidic fibers",-4],["Ice basket gaps",-1.3],["Wind turbine rotor",2],["Portable weather tower",1.5],["Contrail wake",3],["Boundary layer",3.2]];
+const x=v=>30+(v+6)/(10)*370;
+let tk='';for(let e=-6;e<=4;e+=2)tk+=`<line x1="${x(e)}" y1="250" x2="${x(e)}" y2="256" stroke="var(--line)"/><text x="${x(e)}" y="272" text-anchor="middle">10${e<0?'⁻':''}${String(Math.abs(e)).split('').map(d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).join('')} m</text>`;
+document.getElementById('ticks').innerHTML=tk;
+document.getElementById('bars').innerHTML=S.sort((a,b)=>a[1]-b[1]).map((s,i)=>{const y=24+i*31,xx=x(s[1]);return`<line x1="30" y1="${y+6}" x2="${xx}" y2="${y+6}" stroke="var(--line)" stroke-dasharray="2 3"/><circle cx="${xx}" cy="${y+6}" r="5" fill="${i%2?'var(--gold)':'var(--accent)'}"/><text x="${xx>250?xx-10:xx+10}" y="${y+10}" text-anchor="${xx>250?'end':'start'}" font-family="Source Serif 4, Georgia, serif" font-size="12.5" fill="var(--ink)">${s[0]}</text>`}).join('');
+
+/* ---------- copy ---------- */
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const el=document.getElementById(b.dataset.copy),t=el.textContent;
+  const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected'};
+  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+}));
+})();
+</script>
+
+</body>
+</html>
