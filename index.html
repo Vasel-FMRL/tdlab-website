@@ -199,7 +199,7 @@ section.block{padding-block:clamp(64px,9vw,112px)}
 .book:hover .spine{transform:translateY(-6px) rotate(-1deg)}
 .spine b{font-family:var(--display);font-size:1rem;line-height:1.1}
 .spine i{font-family:var(--mono);font-style:normal;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
-.book img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:2px 5px 5px 2px;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 12px 26px -14px rgba(0,0,0,.6);transition:transform .3s;background:var(--line)}
+.book img{width:100%;height:auto;aspect-ratio:2/3;object-fit:cover;border-radius:2px 5px 5px 2px;box-shadow:inset 6px 0 0 rgba(0,0,0,.18),0 12px 26px -14px rgba(0,0,0,.6);transition:transform .3s;background:var(--line)}
 .book:hover img{transform:translateY(-6px) rotate(-1deg)}
 .book span{font-size:.88rem;color:var(--muted);line-height:1.35}
 
@@ -294,6 +294,63 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 .reveal{transition:opacity .7s ease,transform .7s ease}
 .reveal.pre{opacity:.001;transform:translateY(18px)}
 @media (prefers-reduced-motion: reduce){.reveal,.reveal.pre{transition:none;opacity:1;transform:none}}
+
+/* ---------- phone tuning ---------- */
+.more-toggle{display:none}
+.pub-more{display:none}
+.to-top{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid var(--tunnel-line);background:var(--tunnel);color:var(--tunnel-ink);font-size:1.1rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s;box-shadow:0 6px 18px -6px rgba(0,0,0,.5)}
+.to-top.show{opacity:1;pointer-events:auto}
+@media (min-width:761px){.to-top{display:none}}
+@media (max-width:640px){
+  body{font-size:16px}
+  .hero .wrap{padding-block:56px 44px}
+  .hero p.lede{font-size:1rem;margin-top:20px}
+  .cta{margin-top:26px}
+  section.block{padding-block:52px}
+  .head{margin-bottom:28px;gap:12px}
+  .head p{font-size:.95rem}
+  /* research cards become a swipeable row */
+  .areas{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin-inline:calc(-1*max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px));padding-bottom:8px;scrollbar-width:none}
+  .areas::-webkit-scrollbar{display:none}
+  .area{flex:0 0 78%;scroll-snap-align:start}
+  .area canvas{aspect-ratio:16/10}
+  .swipe-hint{display:block!important}
+  /* project write-ups collapse to their first paragraph */
+  .proj{padding-block:32px}
+  .proj .body.clamped p:not(:first-of-type){display:none}
+  .more-toggle{display:inline-flex;margin-top:4px;background:none;border:1px solid var(--tunnel-line);color:var(--flow-a);border-radius:4px;padding:8px 14px;font-family:var(--display);font-weight:600;font-size:.9rem;cursor:pointer}
+  .proj .spec{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .proj .spec div{padding:10px}
+  .proj .spec b{font-size:1.05rem}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gallery figure:first-child{grid-column:1/-1;grid-row:auto}
+  /* publications show the newest first, rest on request */
+  .pub-more{display:block;margin-top:18px;width:100%;padding:12px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--accent);font-family:var(--display);font-weight:600;font-size:.95rem;cursor:pointer}
+  .featured-pub{padding:18px}
+  .featured-pub img.cover-img{width:120px}
+  .chips{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none}
+  /* sponsors three to a row */
+  .sponsor-strip ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+  .sponsor-strip li{justify-content:center;padding:8px 6px}
+  .sponsor-strip img{height:38px;max-width:100%}
+  .sponsor-strip .label{width:100%}
+  .sponsor-strip .wrap{padding-block:22px}
+  /* team */
+  .person{padding:18px;gap:14px}
+  .person > .mark{width:88px;height:88px}
+  .roster{grid-template-columns:1fr 1fr;gap:10px}
+  .member{flex-direction:column;align-items:flex-start;gap:8px;padding:12px}
+  .member b{font-size:.92rem}
+  .alumni td.to::before{content:""}
+  .alumni thead{display:none}
+  .alumni tr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .alumni td{padding:0;border:0}
+  .alumni td.to{grid-column:1/-1;color:var(--muted);font-size:.9rem}
+  .c-row{grid-template-columns:1fr auto;gap:4px 12px}
+  .c-row span{grid-column:1/-1}
+}
 </style>
 
 </head>
@@ -374,6 +431,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       <div><div class="eyebrow">Research &amp; Initiatives</div><h2>From the boundary layer to the jet wake</h2></div>
       <p>We study fluid flow and heat transfer across scales that range from the microscopic to the mesoscale, with sponsored programs in nuclear energy, the atmospheric boundary layer, clean aviation and solar energy.</p>
     </div>
+    <p class="swipe-hint mono" style="display:none;font-size:.72rem;color:var(--muted);margin:-12px 0 12px">Swipe to see all four areas →</p>
     <div class="areas">
       <a class="area reveal" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener">
         <canvas data-viz="laser" aria-hidden="true"></canvas>
@@ -405,7 +463,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <article class="proj reveal" id="proj-abl">
       <div><div class="eyebrow">Contrails · Meso-NH LES</div><h3>A CFD–LES Framework for Simulating Contrail Formation from Ammonia Aviation Fuels</h3>
         <div class="tags"><span class="tag">Meso-NH</span><span class="tag">LIMA microphysics</span><span class="tag">Anelastic</span><span class="tag">Pseudo-incompressible</span></div></div>
-      <div class="body">
+      <div class="body clamped">
         <figure class="vid">
           <video controls preload="none" playsinline poster="assets/media/contrail-poster.webp" aria-label="Recorded talk, A CFD–LES Framework for Simulating Contrail Formation from Ammonia Aviation Fuels">
             <source src="assets/media/contrail.mp4" type="video/mp4">
@@ -421,7 +479,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <article class="proj reveal" id="proj-tva">
       <div><div class="eyebrow">Nuclear · TVA</div><h3>USF engineers develop technology to help nuclear power plants improve maintenance of a critical safety system</h3>
         <p style="margin-top:18px"><a class="link" href="https://www.ans.org/news/2026-08-26/article-8339/university-of-south-florida-develops-laser-maintenance-system-for-tva/" target="_blank" rel="noopener">Read the article ↗</a></p></div>
-      <div class="body">
+      <div class="body clamped">
         <div class="gallery">
           <figure><img src="assets/media/tva-plant.webp" alt="Team members in protective gear testing the laser deicing tool inside the ice condenser" width="1100" height="825" loading="lazy"><figcaption>Field testing inside the ice condenser</figcaption></figure>
           <figure><img src="assets/media/tva-tool.webp" alt="Researcher holding the laser deicing tool in the lab" width="1100" height="1149" loading="lazy"><figcaption>The laser deicing tool</figcaption></figure>
@@ -436,7 +494,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <article class="proj reveal" id="proj-clean">
       <div><div class="eyebrow">NASA ULI · ASAS sub-team</div><h3>CarbonLess Electric AviatioN (CLEAN)</h3>
         <div class="tags"><span class="tag">USF</span><span class="tag">Tennessee Tech</span><span class="tag">Tennessee State</span></div></div>
-      <div class="body">
+      <div class="body clamped">
         <figure class="vid">
           <video id="cleanVid" controls muted loop playsinline preload="metadata" poster="assets/media/clean-poster.webp" aria-label="CLEAN airframe concept animation">
             <source src="assets/media/clean.mp4" type="video/mp4">
@@ -481,6 +539,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     </div>
     <ol class="pubs" id="pubList"></ol>
     <p class="empty" id="pubEmpty" hidden>No publications match that search.</p>
+    <button class="pub-more" id="pubMore" hidden></button>
   </div>
 </section>
 
@@ -796,7 +855,14 @@ function renderPubs(){
   const rows=P.filter(p=>(theme==='All'||p[5]===theme)&&(!s||(p[0]+' '+p[1]+' '+p[2]).toLowerCase().includes(s)));
   document.getElementById('pubList').innerHTML=rows.map(p=>`<li class="pub"><div class="yr">${p[3]}</div><div><h3>${esc(p[0])}</h3><div class="au">${esc(p[1])}</div><div class="jr">${esc(p[2])}, ${p[3]}</div></div><a class="go" href="${p[4]}" target="_blank" rel="noopener">Full text ↗</a></li>`).join('');
   document.getElementById('pubEmpty').hidden=rows.length>0;
+  const small=matchMedia('(max-width:640px)').matches, items=[...document.querySelectorAll('#pubList .pub')], mb=document.getElementById('pubMore');
+  const limit=(small&&!pubAll&&!s&&theme==='All')?6:Infinity;
+  items.forEach((li,i)=>li.hidden=i>=limit);
+  mb.hidden=!(items.length>limit); mb.textContent='Show all '+items.length+' publications';
 }
+let pubAll=false;
+document.getElementById('pubMore').addEventListener('click',()=>{pubAll=true;renderPubs()});
+matchMedia('(max-width:640px)').addEventListener('change',renderPubs);
 renderPubs();
 
 /* ---------- books ---------- */
@@ -848,6 +914,16 @@ document.getElementById('alumni').innerHTML=AL.map(a=>`<tr><td>${a[0]}</td><td c
 const cvid=document.getElementById('cleanVid');
 if(cvid&&!reduce&&'IntersectionObserver' in window){let userPaused=false;cvid.addEventListener('pause',()=>{if(cvid.dataset.auto!=='1')userPaused=true;cvid.dataset.auto=''});
   new IntersectionObserver(e=>{if(e[0].isIntersecting){if(!userPaused){const p=cvid.play();if(p)p.catch(()=>{})}}else if(!cvid.paused){cvid.dataset.auto='1';cvid.pause()}},{threshold:.4}).observe(cvid)}
+/* ---------- phone: read more + back to top ---------- */
+document.querySelectorAll('.proj .body.clamped').forEach(b=>{
+  const ps=b.querySelectorAll(':scope > p');if(ps.length<2){b.classList.remove('clamped');return}
+  const t=document.createElement('button');t.className='more-toggle';t.type='button';t.textContent='Read more';t.setAttribute('aria-expanded','false');
+  ps[0].after(t);
+  t.addEventListener('click',()=>{const open=b.classList.toggle('clamped');t.textContent=open?'Read more':'Show less';t.setAttribute('aria-expanded',String(!open));t.remove();(open?ps[0]:b.querySelectorAll(':scope > p')[b.querySelectorAll(':scope > p').length-1]).after(t)});
+});
+const tt=document.createElement('button');tt.className='to-top';tt.type='button';tt.setAttribute('aria-label','Back to top');tt.textContent='↑';document.body.appendChild(tt);
+tt.addEventListener('click',()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'}));
+addEventListener('scroll',()=>tt.classList.toggle('show',scrollY>innerHeight*1.5),{passive:true});
 /* ---------- copy ---------- */
 document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
   const el=document.getElementById(b.dataset.copy),t=el.textContent;
