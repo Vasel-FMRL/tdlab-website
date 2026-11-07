@@ -79,6 +79,8 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 .hero p.lede{max-width:56ch;margin:28px 0 0;font-size:clamp(1.02rem,1.6vw,1.2rem);color:color-mix(in srgb,var(--tunnel-ink) 86%,transparent)}
 .hero .meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:34px;font-family:var(--mono);font-size:.78rem;color:var(--tunnel-muted)}
 .hero .meta span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--flow-b);margin-right:8px;vertical-align:middle}
+.place{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-family:var(--mono);font-size:.78rem;color:var(--flow-a)}
+.place svg{flex:none}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:4px;font-family:var(--display);font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,border-color .2s}
 .btn:hover{transform:translateY(-1px)}
@@ -303,7 +305,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       <a class="btn solid" href="#research">Explore our research</a>
       <a class="btn ghost" href="#publications">Latest publications</a>
     </div>
-    <div class="meta"><span>Energy</span><span>Aerospace</span><span>Atmosphere</span><span>Tampa, Florida</span></div>
+    <div class="meta"><span>Energy</span><span>Aerospace</span><span>Atmosphere</span></div>
+    <div class="place"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 4.2 12.8 3.9 13.6 5.4 15.9 5 17.4 7.6 19.4 11.6 20.9 15.6 21.6 19.3 20.3 21.4 18.7 20.6 17.2 18.2 15.8 15.6 15.2 12.6 13.8 10.2 12.2 8.6 10.6 7.6 8.2 7.3 5.6 6.9 3.1 6.7 1.8 6z" fill="currentColor"/><circle cx="16.6" cy="13.2" r="1.4" fill="var(--flow-b)"/></svg>Tampa, Florida</div>
   </div>
   <div class="re-tag">live flow past a cylinder<br>tap or move to disturb the wake</div>
 </header>
