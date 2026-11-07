@@ -74,6 +74,9 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 #flow{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--tunnel) 0%,color-mix(in srgb,var(--tunnel) 70%,transparent) 45%,transparent 80%)}
 .hero .wrap{padding-block:clamp(72px,12vw,150px) clamp(56px,8vw,96px)}
+.hero-badge{display:none}
+@media (max-width:999px){.hero-badge{display:grid;place-items:center;width:clamp(84px,22vw,112px);aspect-ratio:1;border-radius:50%;background:#fff;margin-bottom:22px;box-shadow:0 0 0 5px color-mix(in srgb,var(--flow-a) 22%,transparent),0 14px 32px -16px rgba(0,0,0,.7)}
+.hero-badge img{width:86%;height:86%;object-fit:contain;display:block;transform:translateX(.5%)}}
 .hero h1{font-size:clamp(2.6rem,7.4vw,6rem);line-height:.95;font-weight:800;max-width:11ch}
 .hero h1 em{font-style:normal;font-weight:400;color:var(--flow-a);display:block}
 .hero p.lede{max-width:56ch;margin:28px 0 0;font-size:clamp(1.02rem,1.6vw,1.2rem);color:color-mix(in srgb,var(--tunnel-ink) 86%,transparent)}
@@ -378,6 +381,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 <header class="hero" id="top">
   <canvas id="flow" aria-hidden="true"></canvas>
   <div class="wrap">
+    <div class="hero-badge"><img src="assets/logo.webp" alt="Thermofluids Discovery Lab logo" width="440" height="440"></div>
     <div class="eyebrow">University of South Florida · Mechanical &amp; Aerospace Engineering</div>
     <h1 style="margin-top:18px">Thermofluids <em>Discovery</em> Laboratory</h1>
     <p class="lede">Understanding thermal fluid sciences enables engineers to design efficient and cost-effective systems. The Thermofluids Discovery Lab (TD Lab) advances fluid dynamics and thermal transport processes through a combination of numerical/analytical analysis and laboratory/field experiments to address challenges in energy and aerospace.</p>
