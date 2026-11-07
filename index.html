@@ -72,8 +72,6 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 #flow{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
 .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--tunnel) 0%,color-mix(in srgb,var(--tunnel) 70%,transparent) 45%,transparent 80%)}
 .hero .wrap{padding-block:clamp(72px,12vw,150px) clamp(56px,8vw,96px)}
-.hero-logo{width:clamp(96px,11vw,132px);aspect-ratio:1;border-radius:50%;background:#fff;display:grid;place-items:center;margin-bottom:26px;box-shadow:0 0 0 6px color-mix(in srgb,var(--flow-a) 22%,transparent),0 18px 40px -18px rgba(0,0,0,.7)}
-.hero-logo img{width:84%;height:84%;object-fit:contain;display:block;transform:translateX(1.19%)}
 .hero h1{font-size:clamp(2.6rem,7.4vw,6rem);line-height:.95;font-weight:800;max-width:11ch}
 .hero h1 em{font-style:normal;font-weight:400;color:var(--flow-a);display:block}
 .hero p.lede{max-width:56ch;margin:28px 0 0;font-size:clamp(1.02rem,1.6vw,1.2rem);color:color-mix(in srgb,var(--tunnel-ink) 86%,transparent)}
@@ -313,7 +311,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 <header class="hero" id="top">
   <canvas id="flow" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="hero-logo"><img src="assets/logo.webp" alt="Thermofluids Discovery Lab logo" width="440" height="440"></div>
     <div class="eyebrow">University of South Florida · Mechanical &amp; Aerospace Engineering</div>
     <h1 style="margin-top:18px">Thermofluids <em>Discovery</em> Laboratory</h1>
     <p class="lede">Understanding thermal fluid sciences enables engineers to design efficient and cost-effective systems. The Thermofluids Discovery Lab (TD Lab) advances fluid dynamics and thermal transport processes through a combination of numerical/analytical analysis and laboratory/field experiments to address challenges in energy and aerospace.</p>
@@ -324,7 +321,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <div class="meta"><span>Energy</span><span>Aerospace</span><span>Atmosphere</span></div>
     <div class="place"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 4.2 12.8 3.9 13.6 5.4 15.9 5 17.4 7.6 19.4 11.6 20.9 15.6 21.6 19.3 20.3 21.4 18.7 20.6 17.2 18.2 15.8 15.6 15.2 12.6 13.8 10.2 12.2 8.6 10.6 7.6 8.2 7.3 5.6 6.9 3.1 6.7 1.8 6z" fill="currentColor"/><circle cx="16.6" cy="13.2" r="1.4" fill="var(--flow-b)"/></svg>Tampa, Florida</div>
   </div>
-  <div class="re-tag">live flow past a cylinder<br>tap or move to disturb the wake</div>
+  <div class="re-tag">live flow past our lab<br>move the cursor to disturb the wake</div>
 </header>
 
 <div class="latest" aria-label="Latest news">
@@ -525,10 +522,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <div class="roster" id="postdocs"></div>
     <div class="group-title"><h3>Ph.D. students</h3><span id="cPhd"></span></div>
     <div class="roster" id="phds"></div>
+    <div class="group-title"><h3>Master’s students</h3><span id="cMs"></span></div>
+    <div class="roster" id="ms"></div>
     <div class="group-title"><h3>Undergraduate research assistants</h3><span>3 current</span></div>
     <ul class="ug"><li>Kevin Ferrer Sanchez</li><li>Conner Schilaty</li><li>Sebastian Andres Carias Fortin</li></ul>
 
-    <div class="group-title"><h3>Lab alumni</h3><span>where they went next</span></div>
+    <div class="group-title"><h3>Former postdoctoral researchers</h3><span>postdoc alumni</span></div>
+    <div class="roster" id="postAlumni"></div>
+    <div class="group-title"><h3>Graduate alumni</h3><span>where they went next</span></div>
     <div class="alumni-scroll">
       <table class="alumni">
         <thead><tr><th>Name</th><th>Degree</th><th>Now</th></tr></thead>
@@ -657,7 +658,7 @@ if(!reduce){
 const cv=document.getElementById('flow'),ctx=cv.getContext('2d');
 let W,H,R,cx,cy,parts=[],vort=[],mouse=null,shed=0,sign=1,dpr=Math.min(2,devicePixelRatio||1);
 function size(){const r=cv.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-  R=Math.max(26,Math.min(H*.11,70));cx=W>760?W*.66:W*.5;cy=H*.5;
+  logoMode=W>=1000;R=logoMode?Math.max(70,Math.min(H*.2,140)):Math.max(26,Math.min(H*.11,70));cx=logoMode?W*.72:(W>760?W*.66:W*.5);cy=H*.5;
   parts=[];const n=Math.round(Math.min(1400,W*H/700));for(let i=0;i<n;i++){const p=seed(false);p.age=Math.random()*p.life;parts.push(p)}
   ctx.fillStyle=css('--tunnel');ctx.fillRect(0,0,W,H)}
 function seed(edge){let x,y,n=0;do{x=edge?-5-Math.random()*20:Math.random()*W;y=Math.random()*H}while(!edge&&(x-cx)**2+(y-cy)**2<R*R*1.2&&++n<20);return{x,y,age:0,life:250+Math.random()*350}}
@@ -672,7 +673,7 @@ const ca=()=>css('--flow-a'),cb=()=>css('--flow-b');
 let colA,colB,bg;
 function step(){
   ctx.fillStyle=bg+'22';ctx.fillRect(0,0,W,H);
-  if(++shed>46){shed=0;sign=-sign;vort.push({x:cx+R*1.1,y:cy+sign*R*.55,g:sign*-R*1.25})}
+  if(++shed>(logoMode?30+R*.6:46)){shed=0;sign=-sign;vort.push({x:cx+R*1.1,y:cy+sign*R*.55,g:sign*-R*1.25})}
   vort.forEach(k=>{k.x+=U*.9;k.g*=.997});vort=vort.filter(k=>k.x<W+R*3);
   if(mouse){mouse.s*=.96;if(mouse.s<.02)mouse=null}
   ctx.lineWidth=1;
@@ -686,8 +687,17 @@ function step(){
     if(!isFinite(p.x)||!isFinite(p.y)||p.x>W+5||p.y<-25||p.y>H+25||ddx*ddx+ddy*ddy<R*R*.98)Object.assign(p,seed(true));else if(p.age>p.life)Object.assign(p,seed(false));
   }
   ctx.globalAlpha=1;
-  ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle=colA;ctx.globalAlpha=.6;ctx.stroke();ctx.globalAlpha=1;
+  drawBody();
 }
+let logoMode=false;const logoImg=new Image();logoImg.src='assets/logo.webp';
+function drawBody(){
+  ctx.beginPath();ctx.arc(cx,cy,R,0,7);
+  if(logoMode){ctx.fillStyle='#ffffff';ctx.fill();
+    if(logoImg.complete&&logoImg.naturalWidth){const d=R*2*.86;ctx.drawImage(logoImg,cx-d/2+R*2*.01,cy-d/2,d,d)}
+    ctx.strokeStyle=colA;ctx.lineWidth=3;ctx.globalAlpha=.35;ctx.stroke();ctx.lineWidth=1;ctx.globalAlpha=1}
+  else{ctx.fillStyle=bg;ctx.fill();ctx.strokeStyle=colA;ctx.globalAlpha=.6;ctx.stroke();ctx.globalAlpha=1}
+}
+logoImg.addEventListener('load',()=>{if(reduce)drawBody()});
 function colors(){colA=ca();colB=cb();bg=css('--tunnel');if(bg.length===4)bg='#'+[...bg.slice(1)].map(c=>c+c).join('')}
 function staticDraw(){for(let i=0;i<260;i++)step()}
 let visible=true;
@@ -794,12 +804,17 @@ document.getElementById('shelf').innerHTML=BK.map(b=>{const inner=`<img src="ass
 
 /* ---------- team ---------- */
 const ini=n=>n.replace(/^Dr\.\s*/,'').split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('');
-const card=(n,e,k,i,ph)=>`<div class="member">${ph?`<div class="mark photo"><img src="assets/team/${ph}.webp" alt="${n}" width="420" height="420" loading="lazy"></div>`:`<div class="mark" aria-hidden="true" style="background:${i%2?'var(--gold)':'var(--accent)'}">${ini(n)}</div>`}<div style="min-width:0"><b>${n}</b><small>${e}</small><span class="kind ${k==='EXPERIMENTAL'?'exp':''}">${k}</span></div></div>`;
+const card=(n,e,k,i,ph)=>`<div class="member">${ph?`<div class="mark photo"><img src="assets/team/${ph}.webp" alt="${n}" width="420" height="420" loading="lazy"></div>`:`<div class="mark" aria-hidden="true" style="background:${i%2?'var(--gold)':'var(--accent)'}">${ini(n)}</div>`}<div style="min-width:0"><b>${n}</b><small>${e}</small>${k?`<span class="kind ${k==='EXPERIMENTAL'?'exp':''}">${k}</span>`:''}</div></div>`;
 const post=[["Dr. Mohamed Abassi","mabassi@usf.edu","COMPUTATIONAL","abassi"]];
 const phd=[["Devin Roland","daroland@usf.edu","COMPUTATIONAL","roland"],["Torge Bohlken","tbohlken@usf.edu","COMPUTATIONAL","bohlken"],["Sara Arroyave","arroyaves@usf.edu","COMPUTATIONAL","arroyave"],["Mike Edgemon","michaele1@usf.edu","COMPUTATIONAL","edgemon"],["Abdelrahman Abdelrady","abdelrady@usf.edu","COMPUTATIONAL"],["Yoseph Keisi","keisi@usf.edu","COMPUTATIONAL","keisi"],["Ahmed Tolba","ahmedtolba@usf.edu","EXPERIMENTAL","tolba"],["Dexter Limcangco","dexterlimcangco@usf.edu","COMPUTATIONAL"]];
 document.getElementById('postdocs').innerHTML=post.map((p,i)=>card(p[0],p[1],p[2],i,p[3])).join('');
 document.getElementById('phds').innerHTML=phd.map((p,i)=>card(p[0],p[1],p[2],i,p[3])).join('');
 document.getElementById('cPost').textContent=post.length+' current';
+const ms=[["Mian Fazal","Sponsored by TECO",""]];
+document.getElementById('ms').innerHTML=ms.map((p,i)=>card(p[0],p[1],p[2],i,p[3])).join('');
+document.getElementById('cMs').textContent=ms.length+' current';
+const postAl=[["Dr. Ty Hagan","Postdoctoral researcher, TD Lab",""]];
+document.getElementById('postAlumni').innerHTML=postAl.map((p,i)=>card(p[0],p[1],p[2],i+1,p[3])).join('');
 document.getElementById('cPhd').textContent=phd.length+' current';
 const AL=[
 ["Dr. Scott Vanderlan","Ph.D., 2025","Scientist at Oak Ridge National Laboratory"],
