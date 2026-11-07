@@ -338,7 +338,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
     <div class="num"><b data-count="11">11</b><span>Ph.D. candidates</span></div>
     <div class="num"><b data-count="7">7</b><span>Master’s students</span></div>
     <div class="num"><b data-count="38">38</b><span>Undergraduates</span></div>
-    <div class="num"><b data-count="2017">2017</b><span>Founded</span></div>
+    <div class="num"><b data-count="2.9" data-dec="1" data-pre="$" data-suf="M">$2.9M</b><span>Research funding since 2017</span></div>
   </div>
 </div>
 
@@ -648,8 +648,8 @@ if(!reduce && 'IntersectionObserver' in window){
 if(!reduce){
   const nums=document.querySelectorAll('[data-count]');
   const co=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;co.unobserve(e.target);
-    const el=e.target,end=+el.dataset.count,start=end>1000?end-9:0,t0=performance.now();
-    (function tick(t){const p=Math.min(1,(t-t0)/1200),v=Math.round(start+(end-start)*(1-Math.pow(1-p,3)));el.textContent=v;if(p<1)requestAnimationFrame(tick)})(t0);
+    const el=e.target,end=+el.dataset.count,start=end>1000?end-9:0,t0=performance.now(),dec=+(el.dataset.dec||0),pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+    (function tick(t){const p=Math.min(1,(t-t0)/1200),v=(start+(end-start)*(1-Math.pow(1-p,3))).toFixed(dec);el.textContent=pre+v+suf;if(p<1)requestAnimationFrame(tick)})(t0);
   }));
   nums.forEach(n=>co.observe(n));
 }
