@@ -24,19 +24,19 @@
   --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body:"Source Serif 4", "Iowan Old Style", Georgia, serif;
   --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --radius:6px; --logo-chip:transparent; --logo-pad:0;
+  --radius:6px; --logo-chip:#ffffff; --logo-pad:8px 12px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
   --accent:#4cc394; --gold:#e2bd5a;
   --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
-  --logo-chip:#ffffff; --logo-pad:5px 8px;
+  --logo-chip:#ffffff; --logo-pad:8px 12px;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0b1411; --paper:#111d19; --ink:#e3ece7; --muted:#97aaa2; --line:#22352d;
   --accent:#4cc394; --gold:#e2bd5a;
   --tunnel:#060d0b; --tunnel-ink:#e6eee9; --tunnel-muted:#8ea29b; --tunnel-line:#1c2d26;
-  --logo-chip:#ffffff; --logo-pad:5px 8px;
+  --logo-chip:#ffffff; --logo-pad:8px 12px;
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -99,11 +99,11 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 .latest a.headline span{font-family:var(--mono);font-weight:400;font-size:.72rem;color:var(--tunnel-muted);margin-left:8px;white-space:nowrap}
 .latest a.more-news{flex:none;font-family:var(--mono);font-size:.74rem;color:var(--flow-a);text-decoration:none;border-bottom:1px solid currentColor}
 /* ---------- sponsor strip ---------- */
-.sponsor-strip{background:var(--paper);border-bottom:1px solid var(--line)}
-.sponsor-strip .wrap{display:flex;align-items:center;gap:14px 28px;padding-block:22px;flex-wrap:wrap}
+.sponsor-strip{background:color-mix(in srgb,var(--accent) 6%,var(--bg));border-block:1px solid var(--line)}
+.sponsor-strip .wrap{display:flex;align-items:center;gap:16px 36px;padding-block:34px;flex-wrap:wrap}
 .sponsor-strip .label{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex:none}
 .sponsor-strip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:12px 30px;flex:1;justify-content:space-between}
-.sponsor-strip li{background:var(--logo-chip);border-radius:4px;padding:var(--logo-pad);display:flex;align-items:center}
+.sponsor-strip li{background:var(--logo-chip);border-radius:6px;padding:var(--logo-pad);display:flex;align-items:center;box-shadow:0 1px 2px rgba(0,0,0,.06)}
 .sponsor-strip img{height:76px;width:auto;max-width:none;display:block}
 @media (max-width:640px){.sponsor-strip ul{justify-content:flex-start;gap:12px 22px}.sponsor-strip img{height:46px}}
 /* ---------- numbers ---------- */
