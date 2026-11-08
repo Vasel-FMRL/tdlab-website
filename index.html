@@ -718,8 +718,18 @@ const btn=document.getElementById('menuBtn'), list=document.getElementById('navL
 btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
 list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{list.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
 const links=[...list.querySelectorAll('a')];
-const secObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-45% 0px -50% 0px'});
-['research','publications','books','team','about','safety','news','contact'].forEach(id=>{const s=document.getElementById(id);if(s)secObs.observe(s)});
+const spyIds=['research','publications','books','team','about','safety','news','contact'];
+const setOn=id=>links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+id));
+let spyTick=false;
+function spy(){spyTick=false;
+  const navH=document.querySelector('.nav').getBoundingClientRect().bottom;
+  if(innerHeight+scrollY>=document.documentElement.scrollHeight-4){setOn(spyIds[spyIds.length-1]);return}
+  let cur=null;for(const id of spyIds){const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=navH+innerHeight*0.3)cur=id}
+  setOn(cur);
+}
+addEventListener('scroll',()=>{if(!spyTick){spyTick=true;requestAnimationFrame(spy)}},{passive:true});
+links.forEach(l=>l.addEventListener('click',()=>setOn(l.getAttribute('href').slice(1))));
+spy();
 
 /* ---------- reveal (content visible at rest; only below-fold items animate in) ---------- */
 if(!reduce && 'IntersectionObserver' in window){
