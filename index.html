@@ -54,6 +54,7 @@ h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing
 /* ---------- nav ---------- */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--tunnel) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--tunnel-line);color:var(--tunnel-ink)}
 .nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
+html.framed .nav .wrap{padding-right:170px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.05rem;letter-spacing:.02em;white-space:nowrap}
 .brand svg{flex:none}
 .nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}
@@ -718,6 +719,7 @@ const btn=document.getElementById('menuBtn'), list=document.getElementById('navL
 btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
 list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{list.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
 const links=[...list.querySelectorAll('a')];
+try{if(window.self!==window.top)document.documentElement.classList.add('framed')}catch(e){document.documentElement.classList.add('framed')}
 const spyIds=['research','publications','books','team','about','safety','news','contact'];
 const setOn=id=>links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+id));
 let spyTick=false;
