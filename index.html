@@ -879,6 +879,7 @@ renderPubs();
 
 /* ---------- books ---------- */
 const BK=[
+["Sustaining Tomorrow with Minimal Entropy Generation","Springer · 2026","https://books.google.com/books?id=LCHPEQAAQBAJ","#1d5a46",null],
 ["Brightening Tomorrow Together","Springer","https://link.springer.com/book/10.1007/978-3-031-73486-1","#7a5a14","brightening-tomorrow-together"],
 ["Environmental Management of Air, Water, Agriculture, and Energy","Routledge","https://www.routledge.com/Environmental-Management-of-Air-Water-Agriculture-and-Energy/Vasel-Be-Hagh-Ting/p/book/9780367184841","#1f4b3d","environmental-management"],
 ["Advances in Sustainable Energy","Springer","https://link.springer.com/book/10.1007/978-3-030-05636-0","#2b5a72","advances-sustainable-energy"],
@@ -890,7 +891,7 @@ const BK=[
 ["Mitigating Climate Change","Springer","https://link.springer.com/book/10.1007/978-3-030-92148-4","#5a3566","mitigating-climate-change"],
 ["The Energy Mix for Sustaining Our Future","Springer","https://link.springer.com/book/10.1007/978-3-030-00105-6","#8a6a1a","energy-mix"]
 ];
-document.getElementById('shelf').innerHTML=BK.map(b=>{const inner=`<img src="assets/books/${b[4]}.webp" alt="Cover of ${esc(b[0])}" width="400" height="600" loading="lazy"><span>${esc(b[0])}</span>`;return b[2]?`<a class="book reveal" href="${b[2]}" target="_blank" rel="noopener">${inner}</a>`:`<div class="book reveal">${inner}</div>`}).join('');
+document.getElementById('shelf').innerHTML=BK.map(b=>{const inner=(b[4]?`<img src="assets/books/${b[4]}.webp" alt="Cover of ${esc(b[0])}" width="400" height="600" loading="lazy">`:`<div class="spine" style="background:linear-gradient(170deg,${b[3]},color-mix(in srgb,${b[3]} 55%,#000))"><i>${b[1]}</i><b>${esc(b[0])}</b><i>Ting &amp; Vasel-Be-Hagh, eds.</i></div>`)+`<span>${esc(b[0])}</span>`;return b[2]?`<a class="book reveal" href="${b[2]}" target="_blank" rel="noopener">${inner}</a>`:`<div class="book reveal">${inner}</div>`}).join('');
 
 /* ---------- team ---------- */
 const ini=n=>n.replace(/^Dr\.\s*/,'').split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('');
