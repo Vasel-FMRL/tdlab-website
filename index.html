@@ -484,14 +484,20 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
         <div class="tags"><span class="tag">Meso-NH</span><span class="tag">LIMA microphysics</span><span class="tag">Anelastic</span><span class="tag">Pseudo-incompressible</span></div></div>
       <div class="body clamped">
         <figure class="vid">
+          <video data-autoplay controls muted loop playsinline preload="metadata" poster="assets/media/contrail-render-poster.webp" aria-label="Simulation render of contrail formation behind an airliner at cruise, comparing exhaust soot only with ambient aerosol only">
+            <source src="assets/media/contrail-render.mp4" type="video/mp4">
+          </video>
+          <figcaption><span>Contrail formation behind each engine · exhaust soot only (left) vs. ambient aerosol only (right)</span><span>40 s</span></figcaption>
+        </figure>
+        <p>Contrail formation is one of the most significant non-CO2 climate impacts of aircraft operations, outweighing the radiative forcing from CO2 emissions by almost a factor of two. Understanding differences in microphysical evolution and optical characteristics between contrails produced by traditional and carbon-free aviation fuels is, therefore, crucial to ensuring the successful development of climate-friendly propulsion systems.</p>
+        <p>While ammonia is considered a promising hydrogen-based fuel alternative, its contrail formation and persistence characteristics remain uncertain owing to unique thermodynamic conditions in the aircraft's wake. While soot, acting as a primary nucleation site in contrails produced by traditional fuels, is absent in the ammonia-system's exhaust, water vapor emissions are significantly increased, and contrail nucleation may still occur on ambient aerosol populations at upper tropospheric levels.</p>
+        <p>To assess the climate impacts of ammonia-powered contrails, a specialized CFD contrail module has been developed within the atmospheric code Meso-NH, based on the microphysical parameterization LIMA (Liquid Ice Multiple Aerosols) and coupled with anelastic and pseudo-incompressible formulations. To reconcile the significantly varying spatial and temporal scales throughout a contrail's lifetime, the model couples two temporal LES domains specialized to the jet, vortex, and early-dissipation regimes by superimposing synthetic atmospheric and wake-turbulence fields. The development of this model paves the way to enabling the first detailed simulation-backed comparison of optical and persistence characteristics between contrails produced by ammonia and kerosene.</p>
+        <figure class="vid" style="margin:22px 0 0">
           <video controls preload="none" playsinline poster="assets/media/contrail-poster.webp" aria-label="Recorded talk, A CFD–LES Framework for Simulating Contrail Formation from Ammonia Aviation Fuels">
             <source src="assets/media/contrail.mp4" type="video/mp4">
           </video>
           <figcaption><span>Recorded talk · Torge Bohlken &amp; Ahmad Vasel-Be-Hagh</span><span>35 min · with audio</span></figcaption>
         </figure>
-        <p>Contrail formation is one of the most significant non-CO2 climate impacts of aircraft operations, outweighing the radiative forcing from CO2 emissions by almost a factor of two. Understanding differences in microphysical evolution and optical characteristics between contrails produced by traditional and carbon-free aviation fuels is, therefore, crucial to ensuring the successful development of climate-friendly propulsion systems.</p>
-        <p>While ammonia is considered a promising hydrogen-based fuel alternative, its contrail formation and persistence characteristics remain uncertain owing to unique thermodynamic conditions in the aircraft's wake. While soot, acting as a primary nucleation site in contrails produced by traditional fuels, is absent in the ammonia-system's exhaust, water vapor emissions are significantly increased, and contrail nucleation may still occur on ambient aerosol populations at upper tropospheric levels.</p>
-        <p>To assess the climate impacts of ammonia-powered contrails, a specialized CFD contrail module has been developed within the atmospheric code Meso-NH, based on the microphysical parameterization LIMA (Liquid Ice Multiple Aerosols) and coupled with anelastic and pseudo-incompressible formulations. To reconcile the significantly varying spatial and temporal scales throughout a contrail's lifetime, the model couples two temporal LES domains specialized to the jet, vortex, and early-dissipation regimes by superimposing synthetic atmospheric and wake-turbulence fields. The development of this model paves the way to enabling the first detailed simulation-backed comparison of optical and persistence characteristics between contrails produced by ammonia and kerosene.</p>
       </div>
     </article>
 
@@ -949,9 +955,9 @@ const AL=[
 document.getElementById('alumni').innerHTML=AL.map(a=>`<tr><td>${a[0]}</td><td class="deg">${a[1]}</td><td class="to">${a[2]}</td></tr>`).join('');
 
 /* ---------- CLEAN video plays while on screen ---------- */
-const cvid=document.getElementById('cleanVid');
+document.querySelectorAll('#cleanVid,video[data-autoplay]').forEach(cvid=>{
 if(cvid&&!reduce&&'IntersectionObserver' in window){let userPaused=false;cvid.addEventListener('pause',()=>{if(cvid.dataset.auto!=='1')userPaused=true;cvid.dataset.auto=''});
-  new IntersectionObserver(e=>{if(e[0].isIntersecting){if(!userPaused){const p=cvid.play();if(p)p.catch(()=>{})}}else if(!cvid.paused){cvid.dataset.auto='1';cvid.pause()}},{threshold:.4}).observe(cvid)}
+  new IntersectionObserver(e=>{if(e[0].isIntersecting){if(!userPaused){const p=cvid.play();if(p)p.catch(()=>{})}}else if(!cvid.paused){cvid.dataset.auto='1';cvid.pause()}},{threshold:.4}).observe(cvid)}});
 /* ---------- phone: read more + back to top ---------- */
 document.querySelectorAll('.proj .body.clamped').forEach(b=>{
   const ps=b.querySelectorAll(':scope > p');if(ps.length<2){b.classList.remove('clamped');return}
