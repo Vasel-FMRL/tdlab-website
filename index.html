@@ -70,7 +70,7 @@ html.framed .nav .wrap{padding-right:170px}
 
 .brand .logo-dot{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none;overflow:hidden}
 .brand .logo-dot img{width:32px;height:32px;object-fit:contain;display:block;transform:translateX(.18px)}
-#books,#safety{scroll-margin-top:calc(84px + env(safe-area-inset-top,0px))}
+#books,#safety,#join{scroll-margin-top:calc(84px + env(safe-area-inset-top,0px))}
 /* ---------- hero ---------- */
 .hero{position:relative;background:var(--tunnel);color:var(--tunnel-ink);overflow:hidden;isolation:isolate}
 #flow{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
@@ -264,6 +264,19 @@ section.block{padding-block:clamp(64px,9vw,112px)}
 .panel h3{font-size:1.35rem}
 .panel p{margin:0;color:var(--muted);font-size:.96rem}
 .panel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.openings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.opening-status{display:flex;flex-direction:column;gap:2px;padding:16px 18px 16px 40px;position:relative;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper);font-size:.95rem}
+.opening-status span:last-child{color:var(--muted);font-size:.9rem}
+.opening-status .dot{position:absolute;left:18px;top:22px;width:10px;height:10px;border-radius:50%}
+.dot.open{background:#2e9e5b;box-shadow:0 0 0 4px color-mix(in srgb,#2e9e5b 22%,transparent)}
+.dot.closed{background:var(--muted);opacity:.55}
+.job-meta{list-style:none;padding:0;margin:4px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.job-meta li{font-family:var(--mono);font-size:.74rem;padding:6px 10px;border:1px solid var(--line);border-radius:3px;color:var(--muted)}
+.job-contact{font-size:.88rem!important}
+.job-contact a{color:var(--accent)}
+.job-note{margin:22px 0 0;color:var(--muted);font-size:.92rem;max-width:860px}
+@media (max-width:820px){.openings{grid-template-columns:1fr}}
+
 .panel a.btn{background:var(--accent);color:var(--paper)}
 .panel a.btn.quiz{background:transparent;color:var(--accent);border-color:var(--accent)}
 .warn{display:flex;gap:10px;align-items:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold)}
@@ -388,6 +401,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
       <li><a href="#about">About</a></li>
       <li><a href="#safety">Lab Safety</a></li>
       <li><a href="#news">News</a></li>
+      <li><a href="#join">Join</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
@@ -703,6 +717,40 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
   </div>
 </section>
 
+<!-- JOIN -->
+<section class="block" id="join">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><div class="eyebrow">Join the Lab</div><h2>Open positions</h2></div>
+      <p>We are recruiting undergraduate researchers for two projects starting in December 2026. Read the flyer, then apply through the short form.</p>
+    </div>
+    <div class="openings reveal">
+      <div class="opening-status"><span class="dot closed"></span><b>Postdoctoral researchers</b><span>No openings at this time</span></div>
+      <div class="opening-status"><span class="dot closed"></span><b>Graduate students</b><span>No openings at this time</span></div>
+      <div class="opening-status"><span class="dot open"></span><b>Undergraduate researchers</b><span>2 openings · apply by Nov. 22, 2026</span></div>
+    </div>
+    <div class="split">
+      <div class="panel reveal">
+        <div class="warn">Undergraduate · CFD and aeroacoustics</div>
+        <h3>Help us build quieter drones</h3>
+        <p>Run CFD simulations of drone propeller aerodynamics and noise, build geometries and meshes, and validate results against published data. For Mechanical or Aerospace Engineering majors with Fluid Mechanics completed or in progress; OpenFOAM, Fluent, Linux or Python experience is a plus.</p>
+        <ul class="job-meta"><li>10 hrs per week</li><li>Starts Dec. 2026</li><li>Hybrid, Tampa campus</li><li>Apply by Nov. 22, 2026</li></ul>
+        <div class="panel-actions"><a class="btn" href="https://forms.cloud.microsoft/r/2gSWSzauQf" target="_blank" rel="noopener">Apply now ↗</a><a class="btn quiz" href="assets/docs/TDLab_Drone_Noise_Research_Flyer.pdf" target="_blank" rel="noopener">View flyer (PDF)</a></div>
+        <p class="job-contact">Questions? <a href="mailto:vaselbehagh@usf.edu">Dr. Vaselbehagh</a> or <a href="mailto:doranehgard@usf.edu">Dr. Doranehgard</a></p>
+      </div>
+      <div class="panel reveal">
+        <div class="warn">Undergraduate · Experimental setup and hardware</div>
+        <h3>Help us build our next experiment</h3>
+        <p>Help build a new experimental setup for a propulsion research project, from parts on the bench to the first tests. Assemble hardware, machine, weld and 3D print parts, and wire sensors and data acquisition. Shop experience, Arduino or SolidWorks is a plus.</p>
+        <ul class="job-meta"><li>10 hrs per week</li><li>Starts Dec. 2026</li><li>In person, Tampa campus</li><li>Apply by Nov. 22, 2026</li></ul>
+        <div class="panel-actions"><a class="btn" href="https://forms.cloud.microsoft/r/5hPNVVLevk" target="_blank" rel="noopener">Apply now ↗</a><a class="btn quiz" href="assets/docs/TDLab_Experimental_Setup_Research_Flyer.pdf" target="_blank" rel="noopener">View flyer (PDF)</a></div>
+        <p class="job-contact">Questions? <a href="mailto:vaselbehagh@usf.edu">Dr. Vaselbehagh</a> or <a href="mailto:jjregist@usf.edu">Dr. Register</a></p>
+      </div>
+    </div>
+    <p class="job-note reveal">Both are volunteer positions for now. Given exceptional performance, they will turn into paid positions if funds become available. Members gain hands-on mentoring, lab access, potential co-authorship on papers, and reference letters.</p>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="block dark" id="contact">
   <div class="wrap contact">
@@ -738,7 +786,7 @@ btn.addEventListener('click',()=>{const o=list.classList.toggle('open');btn.setA
 list.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{list.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
 const links=[...list.querySelectorAll('a')];
 try{if(window.self!==window.top)document.documentElement.classList.add('framed')}catch(e){document.documentElement.classList.add('framed')}
-const spyIds=['research','publications','books','team','about','safety','news','contact'];
+const spyIds=['research','publications','books','team','about','safety','news','join','contact'];
 const setOn=id=>links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+id));
 let spyTick=false;
 function spy(){spyTick=false;
