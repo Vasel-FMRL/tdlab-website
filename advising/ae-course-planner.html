@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="author" content="Ahmad Vaselbehagh">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<title>USF Aerospace Engineering Course Planner</title>
+<style>:root{color-scheme:light}body{margin:0;font-family:system-ui,sans-serif;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: two-column planner, intake on the left, term-by-term plan on the right, stacking on phones */
+:root{
+  --bg:#f5f7f6; --panel:#ffffff; --fg:#1b2420; --muted:#5d6b65; --line:#d8e0dc;
+  --accent:#006747; --accent-soft:#e3f1eb; --gold:#8a6d1f; --gold-soft:#f6efdb;
+  --warn:#9a3b12; --warn-soft:#fbe9e1; --crit:#0b5f8a;
+  --f-display:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111816; --panel:#18211e; --fg:#e4ece8; --muted:#9aaba3; --line:#2c3a35;
+  --accent:#4cc394; --accent-soft:#16342a; --gold:#d8b75e; --gold-soft:#3a321b;
+  --warn:#f0997a; --warn-soft:#3d2219; --crit:#6fc0ea; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111816; --panel:#18211e; --fg:#e4ece8; --muted:#9aaba3; --line:#2c3a35;
+  --accent:#4cc394; --accent-soft:#16342a; --gold:#d8b75e; --gold-soft:#3a321b;
+  --warn:#f0997a; --warn-soft:#3d2219; --crit:#6fc0ea; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1200px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--accent);padding-bottom:14px;margin-bottom:18px}
+h1{font-family:var(--f-display);font-weight:600;font-size:clamp(24px,4vw,32px);margin:0;letter-spacing:.01em;text-wrap:balance}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.note{background:var(--gold-soft);color:var(--fg);border:1px solid var(--gold);border-radius:6px;padding:10px 14px;font-size:13.5px;margin-bottom:18px}
+.note b{color:var(--gold)}
+nav.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+nav.tabs button{font:500 14px var(--f-body);padding:8px 14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:6px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--accent);color:var(--panel);border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--crit);outline-offset:2px}
+.grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+h2{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0 0 10px}
+h3{font-family:var(--f-mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);margin-bottom:10px}
+select,input[type=number],textarea,input[type=text]{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:7px 9px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checks{display:flex;flex-direction:column;gap:2px;max-height:none}
+.checks label{display:flex;gap:8px;align-items:baseline;font-size:13.5px;padding:2px 0;cursor:pointer}
+.checks code{font-family:var(--f-mono);font-size:12px;color:var(--accent);min-width:74px;display:inline-block}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.btn{font:500 13px var(--f-body);padding:6px 10px;border-radius:5px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+.btn.solid{background:var(--accent);color:var(--panel)}
+.summary{display:flex;flex-wrap:wrap;gap:10px 28px;margin-bottom:14px}
+.summary div{display:flex;flex-direction:column}
+.summary .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.summary .v{font-family:var(--f-display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.offer{background:var(--accent-soft);border:1px solid var(--accent);border-radius:6px;padding:10px 14px;font-size:13.5px;margin-bottom:14px}
+.offer b{color:var(--accent)}
+.apply{border:2px solid var(--accent);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:14px}
+.apply ol{margin:8px 0 10px;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.apply a{color:var(--accent);font-weight:600}
+.addr{font-family:var(--f-mono);font-size:13px;user-select:all}
+.copymsg{font-size:12.5px;color:var(--muted)}
+.meet{background:var(--gold-soft);border:2px solid var(--gold);border-radius:8px;padding:12px 16px;font-size:14px;margin-bottom:14px}
+.meet b{color:var(--gold);display:block;margin-bottom:4px}
+.alerts{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.alert{background:var(--warn-soft);border-left:3px solid var(--warn);padding:7px 10px;font-size:13.5px;border-radius:0 5px 5px 0}
+.alert.info{background:var(--accent-soft);border-left-color:var(--accent)}
+.terms{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.term{border:1px solid var(--line);border-radius:7px;overflow:hidden;background:var(--panel)}
+.term .th{display:flex;justify-content:space-between;padding:7px 11px;background:var(--accent-soft);font-family:var(--f-display);font-weight:600}
+.term .th span:last-child{font-family:var(--f-mono);font-size:12px;font-weight:500;color:var(--muted);align-self:center}
+.term.next .th{background:var(--accent);color:var(--panel)}
+.term.next .th span:last-child{color:var(--panel)}
+.term ul{list-style:none;margin:0;padding:6px 11px 10px}
+.term li{display:grid;grid-template-columns:78px minmax(0,1fr) 22px;gap:6px;padding:4px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.term li:last-child{border-bottom:0}
+.term li code{font-family:var(--f-mono);font-size:12px;color:var(--accent);padding-top:1px}
+.term li .cr{font-family:var(--f-mono);font-size:12px;text-align:right;color:var(--muted)}
+.term li.crit code::after{content:" ●";color:var(--crit)}
+.legend{font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend b{color:var(--crit)}
+.why{font-size:12px;color:var(--muted);grid-column:2/4}
+/* question tab */
+.route{border:1px solid var(--line);border-radius:7px;padding:12px 14px;margin-top:12px}
+.route .tag{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:var(--accent-soft);color:var(--accent);margin-right:6px}
+.route .tag.esc{background:var(--warn-soft);color:var(--warn)}
+.draft{white-space:pre-wrap;font-family:var(--f-mono);font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:10px;margin-top:8px;overflow-x:auto}
+.samples{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+table.kb{width:100%;border-collapse:collapse;font-size:13px}
+table.kb th,table.kb td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.kb th{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tbl{overflow-x:auto}
+footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">USF Aerospace Engineering · B.S. 14.0201</div>
+    <h1>Aerospace Engineering Course Planner</h1>
+  </div>
+  <div class="eyebrow" style="color:var(--muted)">120 credit hours · 2026-27 catalog</div>
+</header>
+
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="tab-plan" aria-selected="true">Course planner</button>
+  
+</nav>
+
+<section id="view-plan">
+<div class="grid">
+  <form class="panel" id="intake" onsubmit="return false">
+    <h2>Student intake</h2>
+    <label class="f">I am planning for
+      <select id="path"><option value="degree">B.S. in Aerospace Engineering</option><option value="change">A change of major into Aerospace Engineering</option><option value="minor">The Aerospace Engineering minor</option></select>
+    </label>
+    <label class="f" id="curMajorWrap" hidden>Current major
+      <select id="curMajor"><option>Mechanical Engineering</option><option>Another engineering major</option><option>Physics or Mathematics</option><option>Another major</option></select>
+    </label>
+    <div class="row2">
+      <label class="f">Catalog year
+        <select id="catalog"><option>2026-27</option><option>2025-26</option></select>
+      </label>
+      <label class="f">Student status
+        <select id="status"><option>Continuing USF student</option><option>Transfer student</option><option>Returning student</option></select>
+      </label>
+    </div>
+    <div class="row2">
+      <label class="f">Term seeking advice for
+        <select id="startTerm"><option>Spring 2027</option><option>Summer 2027</option><option>Fall 2027</option><option>Spring 2028</option></select>
+      </label>
+      <label class="f">Credit hours to register
+        <input type="number" id="maxCr" min="6" max="19" value="16">
+      </label>
+    </div>
+    <div class="row2">
+      <label class="f">Summer terms
+        <select id="summer"><option value="no">Skip summers</option><option value="yes">Take summer courses</option></select>
+      </label>
+      <label class="f">Summer max credits
+        <input type="number" id="sumCr" min="3" max="12" value="9">
+      </label>
+    </div>
+    <label class="f">Foundation math and science GPA
+      <input type="number" id="fgpa" min="0" max="4" step="0.01" value="3.20">
+    </label>
+    <h3>Documents</h3>
+    <label class="f">Unofficial transcript (PDF)<input type="file" class="doc" id="docTranscript" accept=".pdf"><span id="docTranscript-name"></span></label>
+    <label class="f">Degree Works audit (PDF)<input type="file" class="doc" id="docAudit" accept=".pdf"><span id="docAudit-name"></span></label>
+    <label class="f">Transfer credit evaluation, if any (PDF)<input type="file" class="doc" id="docTransfer" accept=".pdf"><span id="docTransfer-name"></span></label>
+    <h3>Completed or transferred courses</h3>
+    <div class="quick">
+      <button type="button" class="btn" id="qNone">Clear all</button>
+      <button type="button" class="btn" id="qFresh">First year done</button>
+      <button type="button" class="btn" id="qTransfer">A.A. transfer</button>
+      <button type="button" class="btn" id="qBSME">BSME junior</button>
+    </div>
+    <div id="checks"></div>
+  </form>
+
+  <div class="panel" id="out">
+    <h2 id="planTitle">Recommended plan</h2>
+    <div class="apply" id="changeApply" hidden>
+      <b>How to change your major to Aerospace Engineering</b>
+      <ol>
+        <li>If you are changing majors to a program in the College of Engineering but have not fully met the progression requirements for the upper division in the major, use the <a href="https://www.usf.edu/engineering/student-services/documents/major-declaration-form.pdf" target="_blank" rel="noopener">Major Declaration Form (PDF)</a>.</li>
+        <li>If you have fully met the progression requirements for the upper division, use the <a href="https://www.usf.edu/engineering/student-services/documents/uldp-form.pdf" target="_blank" rel="noopener">Upper-Level Degree Progression (ULDP) Form (PDF)</a>. It lets you take the restricted upper-level classes, which are the ones "locked" on the flowchart.</li>
+        <li>Review the <a href="https://www.usf.edu/engineering/student-services/documents/flowchart-bsae.pdf" target="_blank" rel="noopener">B.S. in Aerospace Engineering flowchart (PDF)</a> to see the course sequence and which classes are locked.</li>
+      </ol>
+    </div>
+    <div class="apply" id="minorApply" hidden>
+      <b>How to apply for the minor</b>
+      <ol>
+        <li>Download and complete the <a href="https://www.usf.edu/engineering/mae/documents/application-minor-aerospace-engineering.pdf" target="_blank" rel="noopener">Aerospace Engineering minor application (PDF)</a>.</li>
+        <li>Email the completed form to both Dr. Ajit Mujumdar at <span class="addr">ajit@usf.edu</span> and Ms. Kaylee Dunn at <span class="addr">dunnk31@usf.edu</span>.</li>
+      </ol>
+      <button type="button" class="btn" id="copyAddr">Copy both email addresses</button> <span id="copyMsg" class="copymsg"></span>
+    </div>
+    <div class="meet" id="meetAdvisor"><b>Please review this plan with an advisor before you register.</b> This planner is a guide to help you prepare for advising, not an official degree plan. Schedule a meeting with Ms. Maile Sinclair (<span class="addr">msinclair@usf.edu</span>) or Dr. Ajit Mujumdar (<span class="addr">ajit@usf.edu</span>) to confirm that the plan meets your degree requirements and fits your academic record.</div>
+    <div class="offer"><b>Always check the live class schedule before you register.</b> Course offerings change from year to year based on enrollment requests, so a course usually offered in the fall may be offered in the spring, or the other way around. The core and elective course lists and the flowchart may not reflect the latest schedule. Before you register, confirm each course for your term in the official USF class schedule.</div>
+    <div class="summary" id="summary"></div>
+    <div class="alerts" id="alerts"></div>
+    <div class="terms" id="terms"></div>
+    <div class="legend" id="legend"><b>●</b> marks courses on the longest prerequisite chain. Delaying one of these delays graduation.</div>
+  </div>
+</div>
+</section>
+
+
+
+<footer>Nothing you enter on this page is sent or saved.</footer>
+</div>
+
+<script>
+// 2026-27 catalog. Upper-division prerequisites, co-requisites and terms come from the
+// AE Core Courses and Technical Electives lists (26-27). Lower-division prerequisites are assumed.
+// [id, title, credits, prereqs, coreqs, terms "FSU", group]
+const C=[
+ ["MAC2311","Calculus I",4,[],[],"FSU","math"],
+ ["MAC2312","Calculus II",4,["MAC2311"],[],"FSU","math"],
+ ["MAC2313","Calculus III",4,["MAC2312"],[],"FSU","math"],
+ ["MAP2302","Differential Equations (or EGN 3433)",3,["MAC2312","PHY2048"],[],"FSU","math"],
+ ["CHM2045","General Chemistry I and Lab",4,[],[],"FS","sci"],
+ ["PHY2048","General Physics I and Lab",4,["MAC2311"],[],"FSU","sci"],
+ ["PHY2049","General Physics II and Lab",4,["PHY2048","MAC2312"],[],"FSU","sci"],
+ ["STA2023","Prob and Stats (EGN 2440 or STA 2023)",3,[],[],"FSU","math"],
+ ["ENC1101","Composition I",3,[],[],"FSU","gen"],
+ ["ENC1102","Composition II",3,["ENC1101"],[],"FSU","gen"],
+ ["POS2041","Civic literacy (POS 2041, AMH 2010 or 2020)",3,[],[],"FSU","gen"],
+ ["EGN2615","Social science (EGN 2615, ECO 2023 or FIN 2100)",3,[],[],"FSU","gen"],
+ ["HUM-S","State Gen Ed Humanities",3,[],[],"FSU","gen"],
+ ["HUM-U","University Gen Ed Humanities",3,[],[],"FSU","gen"],
+ ["EGN3000","Foundations of Engineering and Lab",3,[],[],"FS","eng"],
+ ["EGN3311","Statics",3,["PHY2048"],[],"FSU","eng"],
+ ["EGN3321","Dynamics",3,["EGN3311"],[],"FSU","eng"],
+ ["EGN3343","Thermodynamics I",3,["PHY2048","PHY2049","MAC2313"],[],"FSU","eng"],
+ ["EGN3365","Materials Engineering I",3,["CHM2045"],["EGN3311"],"FSU","eng"],
+ ["EML3500","Mechanics of Solids",3,["EGN3311"],[],"FS","eng"],
+ ["EML3022","Computer-Aided Design",3,[],[],"FSU","eng"],
+ ["EML3035","Programming Concepts",3,["MAC2311","PHY2048"],[],"FSU","eng"],
+ ["EML3041","Computational Methods",3,["MAP2302","EML3035","EML3500","EGN3343"],[],"FSU","eng"],
+ ["EML3390","Electrical Systems (or EGN 3373)",3,["MAP2302"],[],"FS","eng"],
+ ["EML3303","Engineering Measurements Lab",3,["STA2023"],["EAS4134"],"FS","eng"],
+ ["EAS4020","Introduction to Flight",3,["EGN3343","EML3500","EML3035"],[],"FS","ae"],
+ ["EAS4101","Fundamentals of Aerodynamics",3,[],["EML3041"],"FS","ae"],
+ ["EAS4134","Compressible Flow",3,["EAS4101"],["EML3041"],"S","ae"],
+ ["EAS4200","Aerostructures",3,["EGN3343","EGN3365","EML3500"],[],"S","ae"],
+ ["EAS3810L","Aerospace Engineering Laboratory",3,["EML3303"],[],"FS","ae"],
+ ["EAS4400","Stability and Control of Aircraft",3,["EML3390","EML3041"],["EAS4101"],"F","ae"],
+ ["EAS4300","Jet Propulsion",3,["EAS4134"],[],"F","ae"],
+ ["EAS4505","Astrodynamics",3,["EAS4400"],[],"S","ae"],
+ ["EAS4530","Space Mission Design and Planning",3,["EML3500","EAS4020"],[],"F","ae"],
+ ["EAS4950","Aerospace Capstone Design I",3,["EAS4020"],["EAS4400"],"FS","ae"],
+ ["EAS4951","Aerospace Capstone Design II",3,["EAS4950"],["EAS4505","EAS3810L"],"FS","ae"],
+ ["TE1","Technical elective 1",3,["EAS4020"],[],"FS","te"],
+ ["TE2","Technical elective 2",3,["EAS4020"],[],"FS","te"],
+ ["EGN4930","Advising for Graduating Seniors",0,["EAS4950"],[],"FS","ae"],
+ ["EML3701","Fluid Systems (BSME, minor prerequisite)",3,["EGN3343","EGN3321","EML3500"],[],"FS","me"],
+ ["EML4123","Heat Transfer (BSME, minor prerequisite)",3,["EML3701"],[],"FS","me"],
+ ["EML4312","Mechanical Controls (BSME, minor prerequisite)",3,["EGN3321","EML3390","EML3041"],[],"FS","me"],
+];
+// Technical electives (26-27 list): [label, title, prereq groups (AND of ORs), terms]
+const TECH=[
+ ["BME 4440","Intro to Bioastronautics",[["EGN3343"]],"F"],
+ ["EAS 4930","Avionics Reliability",[["EGN3365"],["EML3500"],["EAS4200"]],"F"],
+ ["EAS 4930","Turbulence",[["EAS4134"]],"F"],
+ ["EAS 4251","Structural Vibrations",[["EGN3365"],["EML3041"]],"FSU"],
+ ["EML 4536","Applied Finite Element Analysis",[["EML3022"],["EML3500"]],"FS"],
+ ["EAS 4411","Motion Planning and Control",[["EAS4400"]],"S"],
+ ["EAS 4930","Space Systems",[],"S"],
+ ["EAS 4930","Unmanned Aircraft Systems",[["EAS4400"]],"S"],
+ ["EML 4230","Intro to Composite Materials",[["EML3041"],["EML3500"]],"S"],
+];
+const BY=Object.fromEntries(C.map(c=>[c[0],c]));
+const FOUND=["MAC2311","MAC2312","MAC2313","PHY2048","PHY2049","CHM2045"];
+// Restricted (upper division) set is an assumption based on the flowchart layout.
+const UPPER=new Set(C.filter(c=>/^(EAS|EML3041|EML3390|EML3303)/.test(c[0])||c[6]==="te").map(c=>c[0]));
+const GROUPS=[["math","Mathematics"],["sci","Science"],["gen","General education"],["eng","Engineering core"],["ae","Aerospace"],["te","Technical electives"],["me","BSME courses required for the minor"]];
+const fmt=id=>id.replace(/^([A-Z]{3})(\d)/,"$1 $2").replace(/^HUM-[SU]/,"Gen Ed").replace(/^TE\d/,"Elective");
+
+// longest remaining chain (prereqs and coreqs) for priority
+const succ={};C.forEach(c=>[...c[3],...c[4]].forEach(p=>(succ[p]=succ[p]||[]).push(c[0])));
+const depth={};function d(id){if(depth[id]!=null)return depth[id];depth[id]=1;const s=succ[id]||[];return depth[id]=1+(s.length?Math.max(...s.map(d)):0)}
+C.forEach(c=>d(c[0]));
+
+// ---- intake checkboxes ----
+const checks=document.getElementById("checks");
+GROUPS.forEach(([g,name])=>{
+  const h=document.createElement("h3");h.textContent=name;checks.appendChild(h);
+  const box=document.createElement("div");box.className="checks";
+  C.filter(c=>c[6]===g).forEach(c=>{
+    const l=document.createElement("label");
+    l.innerHTML=`<input type="checkbox" id="cb-${c[0]}" value="${c[0]}"><code>${fmt(c[0])}</code><span>${c[1]}</span>`;
+    box.appendChild(l);
+  });checks.appendChild(box);
+});
+const setDone=ids=>{C.forEach(c=>document.getElementById("cb-"+c[0]).checked=ids.includes(c[0]));render()};
+const FIRSTYEAR=["MAC2311","MAC2312","CHM2045","PHY2048","ENC1101","ENC1102","EGN3000","POS2041"];
+const AA=["MAC2311","MAC2312","MAC2313","MAP2302","CHM2045","PHY2048","PHY2049","STA2023","ENC1101","ENC1102","POS2041","EGN2615","HUM-S","HUM-U"];
+document.getElementById("qNone").onclick=()=>setDone([]);
+document.getElementById("qFresh").onclick=()=>setDone(FIRSTYEAR);
+document.getElementById("qTransfer").onclick=()=>setDone(AA);
+const BSME=[...AA,"EGN3000","EGN3311","EGN3321","EGN3343","EGN3365","EML3500","EML3022","EML3035","EML3041","EML3390"];
+document.getElementById("qBSME").onclick=()=>setDone(BSME);
+// Minor (12 credits): EAS 4020 and EAS 4101 plus 6 credits of electives. The elective list on the
+// department minor page predates the 2026-27 catalog; mapped to current numbers here, to be confirmed.
+const MINOR_TECH=[
+ ["BME 4440","Intro to Bioastronautics",[["EGN3343"]],"F"],
+ ["EML 4536","Applied Finite Element Analysis",[["EML3022"],["EML3500"]],"FS"],
+ ["EML 4230","Intro to Composite Materials",[["EML3041"],["EML3500"]],"S"],
+];
+const MINOR_CORE=["EAS4020","EAS4101","TE1","TE2"];
+function closure(ids){const out=new Set();const add=id=>{if(out.has(id))return;out.add(id);const c=BY[id];[...c[3],...c[4]].forEach(add)};ids.forEach(add);return out}
+const MINOR_PRE=["EGN3311","EGN3321","EML3500","EGN3343","EML3701","EML4123","EML4312",...FOUND];
+const MINOR_SET=closure([...MINOR_CORE,"EGN3321","EML3701","EML4123","EML4312"]);
+const PATH_NOTES={
+ change:"To progress into the upper division of Aerospace Engineering you need a 3.0 GPA in Calculus I to III, Physics I and II and Chemistry I, with a C or better in each within two attempts, and a 2.5 USF and overall GPA. Courses from your current major are reviewed one by one. For help, meet with an Engineering Student Services advisor (ENC 1302, 813-974-2684, appointments through Archivum).",
+ minor:"The Aerospace Engineering minor is 12 credit hours. You take EAS 4020 Introduction to Flight and EAS 4101 Fundamentals of Aerodynamics, plus two of BME 4440, EML 4230 and EML 4536, with a C- or better in each and a 2.0 minor GPA. Before starting, you need the foundation math and science courses with a 3.0 GPA, Statics and Dynamics with a C+, Mechanics of Solids and Thermodynamics I with a C, EML 3701, EML 4123 and EML 4312 with a C-, and a 2.5 USF and overall GPA. Only 3 credits of the minor may also count toward the BSME. Apply using the minor application described above."
+};
+document.getElementById("intake").addEventListener("input",render);
+document.querySelectorAll(".doc").forEach(inp=>inp.addEventListener("change",()=>{
+  const out=document.getElementById(inp.id+"-name");
+  out.textContent=inp.files.length?inp.files[0].name+" selected. Not uploaded in this prototype.":"";
+}));
+
+// ---- planner ----
+function nextTerm(t){const[s,y]=t.split(" ");const n=+y;return s==="Spring"?"Summer "+n:s==="Summer"?"Fall "+n:"Spring "+(n+1)}
+const code=t=>t.startsWith("Fall")?"F":t.startsWith("Spring")?"S":"U";
+function electivesFor(have,tc,list){
+  return list.filter(e=>e[3].includes(tc)&&e[2].every(g=>g.some(p=>have.has(p)))).map(e=>e[0]+" "+e[1]);
+}
+function render(){
+  const done=new Set(C.filter(c=>document.getElementById("cb-"+c[0]).checked).map(c=>c[0]));
+  const maxCr=Math.max(6,+document.getElementById("maxCr").value||16);
+  const sumCr=Math.max(3,+document.getElementById("sumCr").value||9);
+  const useSum=document.getElementById("summer").value==="yes";
+  const fgpa=+document.getElementById("fgpa").value;
+  const catalog=document.getElementById("catalog").value;
+  const path=document.getElementById("path").value;
+  document.getElementById("curMajorWrap").hidden=path!=="change";
+  document.getElementById("minorApply").hidden=path!=="minor";
+  document.getElementById("changeApply").hidden=path!=="change";
+  const showTerms=path==="degree";
+  document.getElementById("terms").hidden=!showTerms;document.getElementById("meetAdvisor").hidden=!showTerms;document.getElementById("legend").hidden=!showTerms;
+  const inT=c=>path==="minor"?MINOR_SET.has(c[0]):c[6]!=="me";
+  document.getElementById("planTitle").textContent=path==="minor"?"Aerospace Engineering minor":path==="change"?"Changing your major to Aerospace Engineering":"Recommended plan";
+  let term=document.getElementById("startTerm").value;
+  const have=new Set(done),plan=[],alerts=[];
+  let guard=0;
+  while(C.some(c=>inT(c)&&!have.has(c[0])&&c[0]!=="EGN4930")&&guard++<24){
+    const tc=code(term);
+    if(tc==="U"&&!useSum){term=nextTerm(term);continue}
+    const cap=tc==="U"?sumCr:maxCr;
+    const fOK=FOUND.every(f=>have.has(f))&&fgpa>=3.0;
+    const remaining=C.filter(c=>inT(c)&&!have.has(c[0])&&c[0]!=="EGN4930");
+    const pick=[],now=new Set();let cr=0,changed=true;
+    while(changed){changed=false;
+      const avail=remaining.filter(c=>!now.has(c[0])&&c[5].includes(tc)&&((path==="minor"&&c[6]==="te")||c[3].every(p=>have.has(p)))
+        &&c[4].every(p=>have.has(p)||now.has(p))&&(path!=="minor"||!MINOR_CORE.includes(c[0])||MINOR_PRE.every(p=>have.has(p)))&&(!UPPER.has(c[0])||fOK)
+        &&c[0]!=="EGN4930")
+        .sort((a,b)=>depth[b[0]]-depth[a[0]]||b[2]-a[2]);
+      for(const c of avail){if(cr+c[2]<=cap){pick.push(c);now.add(c[0]);cr+=c[2];changed=true;break}}
+    }
+    if(pick.length){
+      plan.push({term,courses:pick,cr,el:electivesFor(have,tc,path==="minor"?MINOR_TECH:TECH)});
+      pick.forEach(c=>have.add(c[0]));
+    }else if(plan.length&&!remaining.some(c=>c[5].includes(tc==="F"?"S":"F"))){break}
+    term=nextTerm(term);
+  }
+  if(path!=="minor"&&!done.has("EGN4930")&&plan.length){plan[plan.length-1].courses.push(BY.EGN4930);have.add("EGN4930")}
+  const remCr=C.filter(c=>inT(c)&&!done.has(c[0])).reduce((s,c)=>s+c[2],0);
+  const doneCr=path==="minor"?MINOR_CORE.filter(id=>done.has(id)).length*3:120-remCr;
+  if(PATH_NOTES[path])alerts.push([PATH_NOTES[path],"info"]);
+  if(path==="minor"){const pre=[...MINOR_SET].filter(id=>!MINOR_CORE.includes(id)&&!done.has(id));
+    if(pre.length)alerts.push(["Before the minor courses, these prerequisites are still needed: "+pre.map(fmt).join(", ")+". Most BSME students complete them as part of their major.",""]);}
+  if(catalog!=="2026-27")alerts.push(["The planner follows the 2026-27 catalog. On the 2025-26 catalog EML 3701 replaces EAS 4134, EML 4312 replaces EAS 4400, and EAS 4251 is a core course. Please confirm this plan with an advisor.",""]);
+  if(!FOUND.every(f=>done.has(f))){
+    alerts.push(["Restricted upper-division courses open after the foundation courses are complete and the student is admitted to the upper division. Still needed: "+FOUND.filter(f=>!done.has(f)).map(fmt).join(", ")+".","info"]);
+  }
+  if(fgpa<3.0){
+    alerts.push(["A foundation GPA of "+fgpa.toFixed(2)+" is below the 3.0 needed for the upper division. The plan holds restricted courses, and this student should meet with an advisor.",""]);
+  }
+  if(C.some(c=>inT(c)&&!have.has(c[0])))alerts.push(["Some courses could not be placed with these settings. Try a higher credit limit or include summers.",""]);
+  alerts.push(["Statics and Dynamics need a C+ or better, and Thermodynamics I and Mechanics of Solids need a C or better, before the courses that follow them.","info"]);
+  const grad=plan.length?plan[plan.length-1].term:"Complete";
+  document.getElementById("summary").innerHTML=
+    `<div><span class="k">${path==="minor"?"Minor credits done":"Completed"}</span><span class="v">${doneCr}${path==="minor"?" of 12":""} cr</span></div>
+     <div><span class="k">Remaining</span><span class="v">${remCr} cr</span></div>
+     ${path==="degree"?`<div><span class="k">Terms left</span><span class="v">${plan.length}</span></div>
+     <div><span class="k">Projected finish</span><span class="v">${grad}</span></div>`:""}`;
+  document.getElementById("alerts").innerHTML=alerts.map(([t,c])=>`<div class="alert ${c}">${t}</div>`).join("");
+  document.getElementById("terms").innerHTML=plan.map((p,i)=>`<div class="term ${i===0?"next":""}"><div class="th"><span>${p.term}${i===0?" · register now":""}</span><span>${p.cr} cr</span></div><ul>${
+    p.courses.map(c=>`<li class="${depth[c[0]]>=plan.length-i&&c[6]!=="gen"&&c[6]!=="te"&&path!=="minor"?"crit":""}"><code>${fmt(c[0])}</code><span>${c[1]}${c[4].length?` <small style="color:var(--muted)">(with ${c[4].map(fmt).join(", ")})</small>`:""}</span><span class="cr">${c[2]}</span>${c[6]==="te"?`<span class="why">Options this term: ${p.el.join("; ")||"see the elective list"}</span>`:""}</li>`).join("")
+  }</ul></div>`).join("")||`<div class="alert info">All requirements are marked complete. Schedule the graduation audit (EGN 4930).</div>`;
+}
+setDone(FIRSTYEAR);
+
+document.getElementById("copyAddr").onclick=()=>{const t="ajit@usf.edu; dunnk31@usf.edu",m=document.getElementById("copyMsg");
+  try{navigator.clipboard.writeText(t).then(()=>m.textContent="Copied.",()=>m.textContent="Select the addresses above to copy them.")}catch(e){m.textContent="Select the addresses above to copy them."}};
+</script>
+
+</body>
+</html>
