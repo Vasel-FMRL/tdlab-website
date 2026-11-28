@@ -116,6 +116,7 @@ footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
 
 <nav class="tabs" role="tablist">
   <button role="tab" id="tab-plan" aria-selected="true">Course planner</button>
+  <button role="tab" id="tab-ask" aria-selected="false">Ask a question</button>
   
 </nav>
 
@@ -198,6 +199,21 @@ footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
     <div class="legend" id="legend"><b>●</b> marks courses on the longest prerequisite chain. Delaying one of these delays graduation.</div>
   </div>
 </div>
+</section>
+
+<section id="view-ask" hidden>
+  <div class="panel" style="max-width:720px">
+    <h2>Ask an advising question</h2>
+    <p>Submit your question through the Aerospace Engineering advising form. You can attach your unofficial transcript and Degree Works audit there, and they stay within USF systems. Please do not email transcripts or other records.</p>
+    <p><a class="btn solid" id="formLink" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=3vcbdOXi30aNZ4Jgffneqmq6qyJqjw9EsWFqgWJ0S-NURjQ3VVVNSldKV1ZIUkZMUkIzWDBCV1kyUS4u" target="_blank" rel="noopener">Open the advising form</a></p>
+    <p>Your question is reviewed by the Aerospace Engineering program. If another office or faculty member is better placed to answer it, we will forward it to them and include you on the reply. Please allow up to three business days for a response.</p>
+    <h3>Before you ask</h3>
+    <ul>
+      <li>Course planning questions are often answered fastest by building a plan in the Course planner tab first.</li>
+      <li>Always confirm course offerings for your term in the official USF class schedule.</li>
+      <li>Please review your plan with Ms. Maile Sinclair or Dr. Ajit Mujumdar before you register.</li>
+    </ul>
+  </div>
 </section>
 
 
@@ -391,6 +407,10 @@ setDone(FIRSTYEAR);
 
 document.querySelectorAll(".copyBoth").forEach(btn=>btn.onclick=()=>{const t="ajit@usf.edu; dunnk31@usf.edu",m=btn.nextElementSibling;
   try{navigator.clipboard.writeText(t).then(()=>m.textContent="Copied.",()=>m.textContent="Select the addresses above to copy them.")}catch(e){m.textContent="Select the addresses above to copy them."}});
+
+const tabs=[["tab-plan","view-plan"],["tab-ask","view-ask"]];
+tabs.forEach(([t,v])=>document.getElementById(t).onclick=()=>tabs.forEach(([t2,v2])=>{
+  document.getElementById(t2).setAttribute("aria-selected",t2===t);document.getElementById(v2).hidden=t2!==t}));
 </script>
 
 </body>
