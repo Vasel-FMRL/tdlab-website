@@ -178,7 +178,9 @@ footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
         <li>If you are changing majors to a program in the College of Engineering but have not fully met the progression requirements for the upper division in the major, use the <a href="https://www.usf.edu/engineering/student-services/documents/major-declaration-form.pdf" target="_blank" rel="noopener">Major Declaration Form (PDF)</a>.</li>
         <li>If you have fully met the progression requirements for the upper division, use the <a href="https://www.usf.edu/engineering/student-services/documents/uldp-form.pdf" target="_blank" rel="noopener">Upper-Level Degree Progression (ULDP) Form (PDF)</a>. It lets you take the restricted upper-level classes, which are the ones "locked" on the flowchart.</li>
         <li>Review the <a href="https://www.usf.edu/engineering/student-services/documents/flowchart-bsae.pdf" target="_blank" rel="noopener">B.S. in Aerospace Engineering flowchart (PDF)</a> to see the course sequence and which classes are locked.</li>
+        <li>Email the completed form to both Dr. Ajit Mujumdar at <span class="addr">ajit@usf.edu</span> and Ms. Kaylee Dunn at <span class="addr">dunnk31@usf.edu</span>.</li>
       </ol>
+      <button type="button" class="btn copyBoth">Copy both email addresses</button> <span class="copymsg"></span>
     </div>
     <div class="apply" id="minorApply" hidden>
       <b>How to apply for the minor</b>
@@ -186,7 +188,7 @@ footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
         <li>Download and complete the <a href="https://www.usf.edu/engineering/mae/documents/application-minor-aerospace-engineering.pdf" target="_blank" rel="noopener">Aerospace Engineering minor application (PDF)</a>.</li>
         <li>Email the completed form to both Dr. Ajit Mujumdar at <span class="addr">ajit@usf.edu</span> and Ms. Kaylee Dunn at <span class="addr">dunnk31@usf.edu</span>.</li>
       </ol>
-      <button type="button" class="btn" id="copyAddr">Copy both email addresses</button> <span id="copyMsg" class="copymsg"></span>
+      <button type="button" class="btn copyBoth" id="copyAddr">Copy both email addresses</button> <span id="copyMsg" class="copymsg"></span>
     </div>
     <div class="meet" id="meetAdvisor"><b>Please review this plan with an advisor before you register.</b> This planner is a guide to help you prepare for advising, not an official degree plan. Schedule a meeting with Ms. Maile Sinclair (<span class="addr">msinclair@usf.edu</span>) or Dr. Ajit Mujumdar (<span class="addr">ajit@usf.edu</span>) to confirm that the plan meets your degree requirements and fits your academic record.</div>
     <div class="offer"><b>Always check the live class schedule before you register.</b> Course offerings change from year to year based on enrollment requests, so a course usually offered in the fall may be offered in the spring, or the other way around. The core and elective course lists and the flowchart may not reflect the latest schedule. Before you register, confirm each course for your term in the official USF class schedule.</div>
@@ -387,8 +389,8 @@ function render(){
 }
 setDone(FIRSTYEAR);
 
-document.getElementById("copyAddr").onclick=()=>{const t="ajit@usf.edu; dunnk31@usf.edu",m=document.getElementById("copyMsg");
-  try{navigator.clipboard.writeText(t).then(()=>m.textContent="Copied.",()=>m.textContent="Select the addresses above to copy them.")}catch(e){m.textContent="Select the addresses above to copy them."}};
+document.querySelectorAll(".copyBoth").forEach(btn=>btn.onclick=()=>{const t="ajit@usf.edu; dunnk31@usf.edu",m=btn.nextElementSibling;
+  try{navigator.clipboard.writeText(t).then(()=>m.textContent="Copied.",()=>m.textContent="Select the addresses above to copy them.")}catch(e){m.textContent="Select the addresses above to copy them."}});
 </script>
 
 </body>
