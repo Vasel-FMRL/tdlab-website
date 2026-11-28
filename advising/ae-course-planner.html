@@ -155,7 +155,7 @@ footer{margin-top:24px;font-size:12.5px;color:var(--muted)}
       </label>
     </div>
     <label class="f">Foundation math and science GPA
-      <input type="number" id="fgpa" min="0" max="4" step="0.01" value="3.20">
+      <input type="number" id="fgpa" min="0" max="4" step="0.01" placeholder="e.g. 3.20">
     </label>
     <h3>Documents</h3>
     <label class="f">Unofficial transcript (PDF)<input type="file" class="doc" id="docTranscript" accept=".pdf"><span id="docTranscript-name"></span></label>
@@ -344,7 +344,7 @@ function render(){
   const maxCr=Math.max(6,+document.getElementById("maxCr").value||16);
   const sumCr=Math.max(3,+document.getElementById("sumCr").value||9);
   const useSum=document.getElementById("summer").value==="yes";
-  const fgpa=+document.getElementById("fgpa").value;
+  const gv=document.getElementById("fgpa").value.trim(),fgpa=gv===""?null:+gv;
   const catalog=document.getElementById("catalog").value;
   const path=document.getElementById("path").value;
   document.getElementById("curMajorWrap").hidden=path!=="change";
@@ -361,7 +361,7 @@ function render(){
     const tc=code(term);
     if(tc==="U"&&!useSum){term=nextTerm(term);continue}
     const cap=tc==="U"?sumCr:maxCr;
-    const fOK=FOUND.every(f=>have.has(f))&&fgpa>=3.0;
+    const fOK=FOUND.every(f=>have.has(f))&&(fgpa===null||fgpa>=3.0);
     const remaining=C.filter(c=>inT(c)&&!have.has(c[0])&&c[0]!=="EGN4930");
     const pick=[],now=new Set();let cr=0,changed=true;
     while(changed){changed=false;
@@ -387,7 +387,8 @@ function render(){
   if(!FOUND.every(f=>done.has(f))){
     alerts.push(["Restricted upper-division courses open after the foundation courses are complete and the student is admitted to the upper division. Still needed: "+FOUND.filter(f=>!done.has(f)).map(fmt).join(", ")+".","info"]);
   }
-  if(fgpa<3.0){
+  if(fgpa===null)alerts.push(["Enter your foundation math and science GPA to check the 3.0 needed for the upper division.","info"]);
+  else if(fgpa<3.0){
     alerts.push(["A foundation GPA of "+fgpa.toFixed(2)+" is below the 3.0 needed for the upper division. The plan holds restricted courses, and this student should meet with an advisor.",""]);
   }
   if(C.some(c=>inT(c)&&!have.has(c[0])))alerts.push(["Some courses could not be placed with these settings. Try a higher credit limit or include summers.",""]);
@@ -403,7 +404,7 @@ function render(){
     p.courses.map(c=>`<li class="${depth[c[0]]>=plan.length-i&&c[6]!=="gen"&&c[6]!=="te"&&path!=="minor"?"crit":""}"><code>${fmt(c[0])}</code><span>${c[1]}${c[4].length?` <small style="color:var(--muted)">(with ${c[4].map(fmt).join(", ")})</small>`:""}</span><span class="cr">${c[2]}</span>${c[6]==="te"?`<span class="why">Options this term: ${p.el.join("; ")||"see the elective list"}</span>`:""}</li>`).join("")
   }</ul></div>`).join("")||`<div class="alert info">All requirements are marked complete. Schedule the graduation audit (EGN 4930).</div>`;
 }
-setDone(FIRSTYEAR);
+setDone([]);
 
 document.querySelectorAll(".copyBoth").forEach(btn=>btn.onclick=()=>{const t="ajit@usf.edu; dunnk31@usf.edu",m=btn.nextElementSibling;
   try{navigator.clipboard.writeText(t).then(()=>m.textContent="Copied.",()=>m.textContent="Select the addresses above to copy them.")}catch(e){m.textContent="Select the addresses above to copy them."}});
